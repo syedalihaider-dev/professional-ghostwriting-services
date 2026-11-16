@@ -1,0 +1,73 @@
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  color: #ece4d6;
+}
+
+.dot,
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: currentColor;
+}
+
+.ring {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -1.125rem 0 0 -1.125rem;
+  border: 1px solid currentColor;
+  transition: width 0.45s var(--ease-out), height 0.45s var(--ease-out), margin 0.45s var(--ease-out), background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.ring[data-state="link"] {
+  width: 3.75rem;
+  height: 3.75rem;
+  margin: -1.875rem 0 0 -1.875rem;
+}
+
+.ring[data-state="label"] {
+  width: 5.75rem;
+  height: 5.75rem;
+  margin: -2.875rem 0 0 -2.875rem;
+  background: currentColor;
+}
+
+.ring[data-state="text"] {
+  width: 2px;
+  height: 1.75rem;
+  margin: -0.875rem 0 0 -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.ring[data-state="label"] .label {
+  opacity: 1;
+}
+
+.down {
+  scale: 0.85;
+}

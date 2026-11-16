@@ -1,0 +1,121 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: none;
+  pointer-events: none;
+}
+
+/* Only when JS is running — and a CSS failsafe clears it if JS errors out. */
+:global(html.js) .preloader {
+  display: block;
+  pointer-events: auto;
+  animation: failsafe 0s linear 9s forwards;
+}
+
+@keyframes failsafe {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.leaf,
+.ink {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 0);
+  will-change: clip-path;
+}
+
+.leaf {
+  background: var(--paper);
+}
+
+.ink {
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+
+.logo {
+  width: clamp(9rem, 16vw, 14rem);
+  height: auto;
+}
+
+.line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem);
+  line-height: 1.2;
+  color: var(--paper);
+}
+
+.mask {
+  display: inline-block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-right: 0.26em;
+  vertical-align: top;
+}
+
+.word {
+  display: inline-block;
+}
+
+.foot {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(1.25rem, 3vw, 2.25rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  color: var(--smoke);
+}
+
+.folio {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.count {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+  line-height: 1;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--vermilion);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@media (max-width: 575.98px) {
+  .foot > .meta:first-child {
+    display: none;
+  }
+  .foot {
+    justify-content: flex-end;
+  }
+}

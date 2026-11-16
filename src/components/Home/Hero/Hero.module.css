@@ -1,0 +1,204 @@
+.hero {
+  position: relative;
+  /* Defines the portrait window the film is cut to on desktop. */
+  --window: inset(15% 11% 13% 55%);
+}
+
+.stage {
+  position: relative;
+  background: var(--ink);
+  height: 100svh;
+  min-height: 36rem;
+  overflow: clip;
+}
+
+/* ---- Film ---- */
+.film {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  /* "lighten": the footage's pure black drops out to the warm ink beneath. */
+  mix-blend-mode: lighten;
+}
+
+.filmInner {
+  position: absolute;
+  inset: -3%;
+  will-change: transform;
+}
+
+/* Inverted + graded: dark water becomes ink, black ink becomes ivory smoke. */
+.video {
+  object-position: 50% 18%;
+  filter: invert(1) grayscale(1) contrast(1.9) brightness(0.78) sepia(0.38);
+  opacity: 0.55;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgb(15 14 12 / 0.75), transparent 30%, transparent 55%, rgb(15 14 12 / 0.92)),
+    radial-gradient(ellipse at 70% 40%, transparent 30%, rgb(15 14 12 / 0.55));
+}
+
+/* ---- Composition ---- */
+/* No z-index here: a stacking context would isolate the headline's
+   difference blend from the film beneath it. DOM order keeps it on top. */
+.frame {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  padding: calc(var(--header-h) + var(--space-4)) var(--gutter) var(--space-6);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--fg-muted);
+}
+
+.top .place {
+  display: none;
+}
+
+.title {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.035em;
+  color: var(--paper);
+  text-wrap: nowrap;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--brass-soft);
+  letter-spacing: -0.02em;
+}
+
+.line {
+  padding-bottom: 0.04em;
+  perspective: 900px;
+}
+.start {
+  align-self: flex-start;
+}
+.indent {
+  align-self: flex-start;
+  padding-left: 0.6em;
+}
+.end {
+  align-self: flex-end;
+}
+
+.bottom {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.lede {
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--paper);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.call {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.cue {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  color: var(--fg-muted);
+}
+
+.cueLine {
+  position: relative;
+  width: 1px;
+  height: 3.25rem;
+  overflow: hidden;
+  background: rgb(236 228 214 / 0.2);
+}
+.cueLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  animation: cue 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  55%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* ---- Tablet ---- */
+@media (min-width: 768px) {
+  .top .place {
+    display: inline-flex;
+  }
+  .indent {
+    padding-left: 1.1em;
+  }
+}
+
+/* ---- Desktop: the portrait window + difference-blend headline ---- */
+@media (min-width: 1024px) {
+  .film {
+    clip-path: var(--window);
+  }
+  .video {
+    opacity: 1;
+  }
+  .vignette {
+    background: linear-gradient(to bottom, rgb(15 14 12 / 0.25), transparent 40%, rgb(15 14 12 / 0.35));
+  }
+  .title {
+    mix-blend-mode: difference;
+    margin-top: -2vh;
+  }
+  .bottom {
+    grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 0.7fr);
+    align-items: end;
+    gap: var(--space-6);
+  }
+  .cue {
+    display: inline-flex;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 760px) {
+  .title {
+    font-size: min(var(--fs-display), 20vh);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .actions {
+    gap: var(--space-4);
+  }
+}

@@ -1,0 +1,198 @@
+.header {
+  --h-fg: var(--paper);
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  color: var(--h-fg);
+  transition: color var(--dur-base) var(--ease-out);
+  /* Hidden until the preloader hands over (avoids a flash behind it). */
+  opacity: 0;
+}
+
+:global(html:not(.js)) .header {
+  opacity: 1 !important;
+}
+
+.header[data-theme="light"] {
+  --h-fg: var(--ink);
+}
+
+/* A soft veil for legibility once the reader has left the very top. */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -40%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgb(15 14 12 / 0.7), transparent);
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.header[data-scrolled][data-theme="dark"]::before {
+  opacity: 1;
+}
+.header[data-scrolled][data-theme="light"]::before {
+  opacity: 1;
+  background: linear-gradient(to bottom, rgb(236 228 214 / 0.82), transparent);
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  height: var(--header-h);
+  padding-inline: var(--gutter);
+}
+
+/* ---- Logo (two artworks crossfade with the surface) ---- */
+.logo {
+  position: relative;
+  display: block;
+  width: clamp(4.75rem, 3.9rem + 2.4vw, 6.4rem);
+  aspect-ratio: 622 / 382;
+  flex: none;
+}
+.logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.logoInk {
+  opacity: 0;
+}
+.header[data-theme="light"] .logoInk {
+  opacity: 1;
+}
+.header[data-theme="light"] .logoIvory {
+  opacity: 0;
+}
+
+/* ---- Nav ---- */
+.nav {
+  display: none;
+}
+.nav ul {
+  display: flex;
+  gap: clamp(1.25rem, 2.2vw, 2.75rem);
+}
+.navLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: var(--fs-small);
+  letter-spacing: 0.02em;
+}
+.navNum {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.8125rem;
+  opacity: 0.55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.75rem);
+}
+
+/* Phone: visible on phones (no CTA there) and wide screens; hidden in between. */
+.actions .phone {
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+.cta {
+  display: none;
+}
+
+/* The header button follows the header theme, not the section surface. */
+.header .cta,
+.header :global(button) {
+  --fg: var(--h-fg);
+  --bg: var(--ink);
+  --accent: var(--brass-soft);
+}
+.header[data-theme="light"] :global(button) {
+  --bg: var(--paper);
+  --accent: var(--oxblood);
+}
+
+/* ---- Menu toggle ---- */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 2.75rem;
+  padding-inline: 0.25rem;
+  color: var(--h-fg);
+}
+.toggleLabel {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.toggleLines {
+  position: relative;
+  width: 1.75rem;
+  height: 0.75rem;
+}
+.toggleLines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform var(--dur-base) var(--ease-in-out), top var(--dur-base) var(--ease-in-out);
+}
+.toggleLines span:first-child {
+  top: 0;
+}
+.toggleLines span:last-child {
+  top: 100%;
+  transform-origin: right;
+  transform: scaleX(0.6);
+}
+.toggleLines[data-open] span:first-child {
+  top: 50%;
+  transform: rotate(45deg);
+}
+.toggleLines[data-open] span:last-child {
+  top: 50%;
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+@media (min-width: 768px) {
+  .cta {
+    display: inline-flex;
+  }
+  .actions .phone {
+    display: none;
+  }
+}
+
+@media (max-width: 359.98px) {
+  .actions .phone {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: block;
+  }
+  .toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .actions .phone {
+    display: inline-block;
+  }
+}

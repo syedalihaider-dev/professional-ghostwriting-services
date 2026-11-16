@@ -1,0 +1,71 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.video {
+  filter: sepia(0.5) saturate(0.55) contrast(1.08) brightness(0.8);
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgb(15 14 12 / 0.35), rgb(15 14 12 / 0.8));
+}
+
+.overlay {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  padding: calc(var(--header-h) + var(--space-4)) var(--gutter) var(--space-7);
+  text-align: center;
+}
+
+.overlay > :first-child {
+  justify-self: center;
+}
+
+.lines {
+  align-self: center;
+  display: grid;
+  font-size: clamp(2.6rem, 1rem + 6.4vw, 8.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.final {
+  font-style: italic;
+  color: var(--brass-soft);
+}
+
+.caption {
+  justify-self: center;
+  color: var(--fg-muted);
+}
+
+/* Scroll mode: the three lines share one slot and take turns. */
+.section[data-mode="scroll"] .lines {
+  grid-template-areas: "slot";
+}
+.section[data-mode="scroll"] .lineWrap {
+  grid-area: slot;
+}
