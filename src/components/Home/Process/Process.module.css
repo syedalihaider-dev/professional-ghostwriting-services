@@ -5,36 +5,84 @@
 
 .pin {
   position: relative;
-  padding-block: var(--space-9);
-  background-color: var(--bg);
+  min-height: 100svh;
 }
 
-.layout {
-  display: grid;
+/* ---------- Backgrounds ---------- */
+.bgs {
+  position: absolute;
+  inset: 0;
+}
+.bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.bg:not(:first-child) {
+  display: none;
+}
+.bgInner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.bgMedia {
+  object-fit: cover;
+}
+/* The typewriter film is graded live to match the cobalt duotone stills. */
+.bg video {
+  filter: grayscale(1) contrast(1.3) brightness(0.9);
+}
+.bg:has(video)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cobalt);
+  mix-blend-mode: multiply;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgb(4 5 26 / 0.65), rgb(4 5 26 / 0.15) 35%, rgb(4 5 26 / 0.25) 60%, rgb(4 5 26 / 0.9)),
+    rgb(43 60 255 / 0.12);
+}
+
+/* ---------- Content ---------- */
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-7);
+  padding-block: calc(var(--header-h) + var(--space-6)) var(--space-8);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
 }
 
 .title {
-  margin-top: var(--space-4);
-  font-size: var(--fs-h2);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  max-width: 11em;
+  font-size: var(--fs-h3);
+  text-transform: uppercase;
+  max-width: 14em;
 }
 
-.numerals {
+.words {
   display: none;
 }
 
 .steps {
   display: grid;
   gap: var(--space-6);
-  counter-reset: step;
 }
 
 .step {
+  display: grid;
+  gap: var(--space-3);
   padding-top: var(--space-5);
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--line);
 }
 
 .stepTitle {
@@ -42,213 +90,119 @@
   align-items: baseline;
   gap: var(--space-4);
   font-size: var(--fs-h3);
-  line-height: 1;
+  text-transform: uppercase;
 }
-
-.stepIdx {
-  font-family: var(--font-body);
-  font-size: var(--fs-micro);
-  letter-spacing: var(--tracking-label);
-  color: var(--accent);
+.stepTitle :global(.label) {
+  color: var(--volt);
 }
 
 .stepBody {
-  margin-top: var(--space-4);
-  max-width: 40ch;
+  max-width: 42ch;
   color: var(--fg-muted);
   font-size: var(--fs-lead);
-  line-height: 1.5;
-}
-
-.desk {
-  width: min(100%, 26rem);
-  justify-self: center;
-  padding: var(--space-5) var(--space-7) var(--space-8) var(--space-4);
+  line-height: 1.45;
 }
 
 .progress {
   display: none;
 }
 
-@media (min-width: 1024px) {
-  .layout {
-    grid-template-columns: 6fr 1fr 5fr;
-    align-items: start;
-  }
-  .head,
-  .steps {
-    grid-column: 1;
-  }
-  .desk {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    width: min(100%, 30rem);
-    align-self: center;
-  }
-}
-
 /* =====================================================================
-   Scroll mode (motion allowed): one pinned spread, steps stacked.
+   Scroll mode: one pinned stage.
    ===================================================================== */
 .process[data-mode="scroll"] .pin {
   height: 100svh;
-  padding-block: calc(var(--header-h) + var(--space-3)) var(--space-6);
 }
-
-.process[data-mode="scroll"] .layout {
+.process[data-mode="scroll"] .bg {
+  display: block;
+}
+.process[data-mode="scroll"] .frame {
   height: 100%;
-  grid-template-rows: auto auto 1fr auto;
-  gap: var(--space-4);
+  gap: 0;
+  padding-bottom: var(--space-6);
+  justify-content: space-between;
+}
+.process[data-mode="scroll"] .title {
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
 }
 
-.process[data-mode="scroll"] .title {
-  font-size: clamp(2rem, 1.2rem + 3vw, 4.75rem);
+.process[data-mode="scroll"] .words {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.word {
+  grid-area: 1 / 1;
+  font-size: clamp(4.5rem, 1rem + 19vw, 25rem);
+  color: var(--pure);
+  white-space: nowrap;
 }
 
 .process[data-mode="scroll"] .steps {
   position: relative;
-  display: block;
-  min-height: 9.5rem;
+  display: grid;
+  min-height: 9rem;
+  margin-top: auto;
 }
-
 .process[data-mode="scroll"] .step {
-  position: absolute;
-  inset: 0 0 auto;
+  grid-area: 1 / 1;
   border-top: 0;
   padding-top: 0;
+  align-self: end;
 }
-
-.process[data-mode="scroll"] .stepIdx {
+.process[data-mode="scroll"] .stepTitle {
   display: none;
 }
 
-.process[data-mode="scroll"] .desk {
-  grid-row: 3;
-  align-self: center;
-  width: auto;
-  height: 100%;
-  max-height: 100%;
-  aspect-ratio: 3 / 4;
-  padding: 0;
-  min-height: 0;
-}
-
 .process[data-mode="scroll"] .progress {
-  position: relative;
-  display: block;
-  grid-row: 4;
-  height: 1px;
-  margin: var(--space-6) 0 var(--space-4);
-  background: var(--rule);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-top: var(--space-6);
 }
-
-.progressFill {
+.seg {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 0.75rem;
+}
+.seg::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  background: var(--accent);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgb(255 255 255 / 0.25);
+}
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--volt);
   transform: scaleX(0);
   transform-origin: left;
 }
-
-.tick {
-  position: absolute;
-  top: 0;
-  width: 0;
-}
-.tick::before {
-  content: "";
-  position: absolute;
-  top: -3px;
-  left: -3.5px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--accent);
-  transition: background-color var(--dur-base) ease;
-}
-.tick[data-done]::before {
-  background: var(--accent);
-}
-.tick span {
-  position: absolute;
-  top: 0.9rem;
-  left: 0;
-  transform: translateX(-50%);
-  white-space: nowrap;
+.seg :global(.label) {
   color: var(--fg-muted);
-  font-size: 0.625rem;
-}
-.tick:first-of-type span {
-  transform: none;
-}
-.tick:last-of-type span {
-  transform: translateX(-100%);
 }
 
-@media (max-width: 575.98px) {
-  .process[data-mode="scroll"] .tick span {
-    display: none;
+@media (max-width: 767.98px) {
+  .seg :global(.label) {
+    font-size: 0.625rem;
   }
-  .process[data-mode="scroll"] .stepBody {
-    font-size: var(--fs-body);
+  .process[data-mode="scroll"] .seg :global(.label) {
+    display: none;
   }
 }
 
 @media (min-width: 1024px) {
-  .process[data-mode="scroll"] .layout {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 1fr) minmax(0, 5fr);
-    grid-template-rows: auto 1fr auto auto;
-    column-gap: var(--space-6);
-  }
-
-  .process[data-mode="scroll"] .head {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  /* The big rolling numeral */
-  .process[data-mode="scroll"] .numerals {
-    display: block;
-    grid-column: 1;
-    grid-row: 2;
-    align-self: end;
-    height: 1em;
-    overflow: hidden;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(8rem, 3rem + 13vw, 19rem);
-    line-height: 1;
-    color: var(--accent);
-    letter-spacing: -0.04em;
-  }
-  .numTrack {
-    display: flex;
-    flex-direction: column;
-  }
-  .numTrack span {
-    height: 1em;
-  }
-
   .process[data-mode="scroll"] .steps {
-    grid-column: 1;
-    grid-row: 3;
-    min-height: 10rem;
-  }
-
-  .process[data-mode="scroll"] .desk {
-    grid-column: 3;
-    grid-row: 1 / span 3;
-    justify-self: center;
-    height: min(100%, 74vh);
-  }
-
-  .process[data-mode="scroll"] .progress {
-    grid-column: 1 / -1;
-    grid-row: 4;
-  }
-
-  .process[data-mode="scroll"] .stepTitle {
-    font-size: clamp(2rem, 1.4rem + 1.8vw, 3.25rem);
+    max-width: 30rem;
+    margin-left: auto;
   }
 }

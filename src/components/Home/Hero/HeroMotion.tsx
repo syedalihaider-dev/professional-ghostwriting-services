@@ -1,88 +1,89 @@
 "use client";
 
 import { useSectionMotion } from "@/animations/useSectionMotion";
-import { gsap, MQ } from "@/lib/gsap";
-import { EASE } from "@/lib/motion";
+import { gsap, MQ, SplitText } from "@/lib/gsap";
 import { onLoaderDone } from "@/lib/loader";
 
 /**
  * Hero choreography.
- * Entrance (after the preloader): the film window draws open upward, the
- * headline rises line by line out of its masks, details settle last.
- * Scroll (desktop): pinned — the window opens to full bleed while the three
- * headline lines part left, up and right. Pointer: gentle depth parallax.
+ * Entrance (after the preloader): the headline punches up letter by letter,
+ * the knockout word rises into its band with the footage already running
+ * inside it, then the details settle.
+ * Scroll (desktop): pinned — the band opens to the full stage while the
+ * knockout sheet scales up around the stem of the B, so the camera flies
+ * through the letter and the footage fills the screen.
+ * Pointer: the footage drifts inside the letters.
  */
 export default function HeroMotion() {
   const marker = useSectionMotion((hero) => {
-    const q = (s: string) => hero.querySelectorAll<HTMLElement>(`[data-anim='${s}']`);
-    const film = q("film")[0];
-    const filmInner = q("film-inner")[0];
+    const q = (s: string) => Array.from(hero.querySelectorAll<HTMLElement>(`[data-anim='${s}']`));
+    const [stage] = q("stage");
+    const [knock] = q("knock");
+    const [film] = q("film");
+    const [mask] = q("mask");
+    const [word] = q("word");
+    const [zoomLetter] = q("zoom");
     const lines = q("line");
-    const wraps = q("line-wrap");
     const fades = q("fade");
-    const title = q("title")[0];
     const mm = gsap.matchMedia();
 
     mm.add({ desktop: MQ.desktop, mobile: MQ.mobile }, (ctx) => {
       const { desktop } = ctx.conditions as { desktop: boolean };
-      const windowShape = getComputedStyle(hero).getPropertyValue("--window").trim() || "inset(15% 11% 13% 55%)";
 
-      // Pre-entrance state (hidden behind the preloader).
-      gsap.set(lines, { yPercent: 115, rotationX: -35, transformOrigin: "50% 0%" });
-      gsap.set(fades, { opacity: 0, y: 24 });
-      gsap.set(filmInner, { scale: 1.35 });
-      if (desktop) gsap.set(film, { clipPath: "inset(87% 11% 13% 55%)" });
-      else gsap.set(film, { opacity: 0 });
+      const split = SplitText.create(lines, { type: "words,chars", mask: "chars" });
+      gsap.set(split.chars, { yPercent: 105, skewY: 10 });
+      gsap.set(word, { yPercent: 100 });
+      gsap.set(fades, { opacity: 0, y: 16 });
+      gsap.set(film, { scale: 1.35 });
 
-      const intro = gsap.timeline({ paused: true, defaults: { ease: EASE.out } });
+      const intro = gsap.timeline({ paused: true });
       intro
-        .to(film, desktop ? { clipPath: windowShape, duration: 1.8, ease: EASE.cinematic } : { opacity: 1, duration: 1.6 }, 0)
-        .to(filmInner, { scale: 1.12, duration: 2.6 }, 0)
-        .to(lines, { yPercent: 0, rotationX: 0, duration: 1.5, stagger: 0.11 }, 0.25)
-        .to(fades, { opacity: 1, y: 0, duration: 1.1, stagger: 0.08 }, 0.9);
-
+        .to(split.chars, { yPercent: 0, skewY: 0, duration: 1.1, stagger: 0.03, ease: "expo.out" }, 0)
+        .to(word, { yPercent: 0, duration: 1.5, ease: "expo.out" }, 0.25)
+        .to(film, { scale: 1.12, duration: 2.4, ease: "power3.out" }, 0.25)
+        .to(fades, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08, ease: "power3.out" }, 0.8);
       const off = onLoaderDone(() => intro.play());
 
       if (!desktop) {
-        // Mobile: the film drifts slower than the page; text lifts away.
-        gsap.to(filmInner, { yPercent: 12, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
-        return () => off();
+        return () => {
+          off();
+          split.revert();
+        };
       }
 
-      // Desktop: pin and open the window to full bleed.
+      // The B's stem, relative to the mask — the point the camera flies into.
+      const origin = () => {
+        const m = mask.getBoundingClientRect();
+        const r = zoomLetter.getBoundingClientRect();
+        return `${r.left - m.left + r.width * 0.2}px ${r.top - m.top + r.height * 0.55}px`;
+      };
+      // Mirrors the CSS band: word line-box height === --kh.
+      const bandTop = () => `inset(${stage.offsetHeight - word.offsetHeight}px 0px 0px 0px)`;
+
       const tl = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: { trigger: hero, start: "top top", end: "+=110%", pin: q("stage")[0], scrub: 0.9, anticipatePin: 1 },
+        scrollTrigger: { trigger: hero, start: "top top", end: "+=150%", pin: stage, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true },
       });
-      tl.fromTo(film, { clipPath: windowShape }, { clipPath: "inset(0% 0% 0% 0%)", immediateRender: false }, 0)
-        .to(filmInner, { scale: 1, duration: 1 }, 0)
-        .to(wraps[0], { xPercent: -28, opacity: 0 }, 0)
-        .to(wraps[1], { yPercent: -60, opacity: 0 }, 0.05)
-        .to(wraps[2], { xPercent: 28, opacity: 0 }, 0)
-        .to(fades, { opacity: 0, y: -30, stagger: 0.02 }, 0);
+      tl.to(fades, { opacity: 0, y: -40, duration: 0.25 }, 0)
+        .to(lines, { yPercent: -40, opacity: 0, stagger: 0.05, duration: 0.3 }, 0)
+        .fromTo(knock, { clipPath: bandTop }, { clipPath: "inset(0px 0px 0px 0px)", duration: 0.35, ease: "power2.inOut" }, 0.05)
+        .fromTo(mask, { scale: 1, transformOrigin: origin }, { scale: 70, duration: 1, ease: "power3.in" }, 0.1)
+        .to(film, { scale: 1, duration: 1 }, 0.1);
 
-      // Pointer depth: film and type drift in opposite directions.
-      const fx = gsap.quickTo(filmInner, "x", { duration: 1.2, ease: "power3" });
-      const fy = gsap.quickTo(filmInner, "y", { duration: 1.2, ease: "power3" });
-      const tx = gsap.quickTo(title, "x", { duration: 1.4, ease: "power3" });
-      const ty = gsap.quickTo(title, "y", { duration: 1.4, ease: "power3" });
+      const fx = gsap.quickTo(film, "xPercent", { duration: 1.2, ease: "power3" });
+      const fy = gsap.quickTo(film, "yPercent", { duration: 1.2, ease: "power3" });
       const onMove = (e: PointerEvent) => {
-        const nx = e.clientX / window.innerWidth - 0.5;
-        const ny = e.clientY / window.innerHeight - 0.5;
-        fx(nx * -24);
-        fy(ny * -18);
-        tx(nx * 10);
-        ty(ny * 8);
+        fx((e.clientX / window.innerWidth - 0.5) * -4);
+        fy((e.clientY / window.innerHeight - 0.5) * -4);
       };
       hero.addEventListener("pointermove", onMove);
 
       return () => {
         off();
         hero.removeEventListener("pointermove", onMove);
+        split.revert();
       };
     });
-
-    // Reduced motion: no pre-hiding, no pin — the composed frame as designed.
   });
 
   return <span ref={marker} hidden />;

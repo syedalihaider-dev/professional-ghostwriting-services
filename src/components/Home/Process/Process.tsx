@@ -1,69 +1,69 @@
+import Image from "next/image";
 import { process } from "@/content/home";
+import Film from "@/components/UI/Film/Film";
 import ProcessMotion from "./ProcessMotion";
-import Manuscript from "./Manuscript";
 import styles from "./Process.module.css";
 
-const pad = (n: number) => String(n + 1).padStart(2, "0");
+const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
- * Chapter III — the process told by a single page that evolves as you
- * scroll: an idea, an outline, prose, an editor's marks, and finally a bound
- * cover with the author's name on it.
- *
- * Default (no JS / reduced motion): a static list beside the finished page.
- * With motion, ProcessMotion sets data-mode="scroll" and pins the chapter.
+ * Process as a cinematic timeline. Default (no JS / reduced motion): a list
+ * of five steps over the first frame. With motion, ProcessMotion pins the
+ * section (data-mode="scroll"): backgrounds wipe in, the giant step word
+ * rolls letter by letter, the copy swaps and the progress bar fills.
  */
 export default function Process() {
+  const steps = process.steps;
+
   return (
-    <section
-      id="process"
-      className={`surface-ink ${styles.process}`}
-      data-surface="dark"
-      data-chapter={process.chapter}
-      data-chapter-name={process.label}
-      aria-labelledby="process-title"
-    >
+    <section id="process" className={`surface-cobalt ${styles.process}`} data-surface="dark" aria-labelledby="process-title">
       <div className={styles.pin} data-anim="pin">
-        <div className={`container ${styles.layout}`}>
+        <div className={styles.bgs} aria-hidden="true">
+          {steps.map((s) => (
+            <div key={s.id} className={styles.bg} data-anim="bg">
+              <div className={styles.bgInner} data-anim="bg-inner">
+                {"film" in s && s.film ? <Film name={s.film} className={styles.bgMedia} /> : <Image src={s.image} alt="" fill sizes="100vw" className={styles.bgMedia} />}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.veil} />
+
+        <div className={`container ${styles.frame}`}>
           <header className={styles.head}>
-            <p className="chapter-mark">
-              <b>{process.chapter}</b>
-              {process.label}
-            </p>
+            <p className="label caret-label">{process.label}</p>
             <h2 id="process-title" className={styles.title}>
               {process.heading}
             </h2>
           </header>
 
-          <div className={styles.numerals} aria-hidden="true">
-            <div className={styles.numTrack} data-anim="num-track">
-              {process.steps.map((s, i) => (
-                <span key={s.id}>{pad(i)}</span>
-              ))}
-            </div>
+          <div className={styles.words} aria-hidden="true">
+            {steps.map((s) => (
+              <span key={s.id} className={`display ${styles.word}`} data-anim="word">
+                {s.word}
+              </span>
+            ))}
           </div>
 
           <ol role="list" className={styles.steps}>
-            {process.steps.map((s, i) => (
+            {steps.map((s, i) => (
               <li key={s.id} className={styles.step} data-anim="step">
                 <h3 className={styles.stepTitle}>
-                  <span className={styles.stepIdx}>{pad(i)}</span>
-                  {s.title}
+                  <span className="label">{pad(i + 1)}</span>
+                  {s.word}
                 </h3>
                 <p className={styles.stepBody}>{s.body}</p>
               </li>
             ))}
           </ol>
 
-          <div className={styles.desk} aria-hidden="true">
-            <Manuscript />
-          </div>
-
           <div className={styles.progress} aria-hidden="true">
-            <span className={styles.progressFill} data-anim="progress" />
-            {process.steps.map((s, i) => (
-              <span key={s.id} className={styles.tick} data-anim="tick" style={{ left: `${(i / (process.steps.length - 1)) * 100}%` }}>
-                <span className="label">{s.title}</span>
+            {steps.map((s, i) => (
+              <span key={s.id} className={styles.seg}>
+                <span className={styles.fill} data-anim="fill" />
+                <span className="label">
+                  {pad(i + 1)} {s.word}
+                </span>
               </span>
             ))}
           </div>

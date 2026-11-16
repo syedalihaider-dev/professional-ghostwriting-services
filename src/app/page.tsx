@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Home/Hero/Hero";
-import Premise from "@/components/Home/Premise/Premise";
+import Intro from "@/components/Home/Intro/Intro";
 import Services from "@/components/Home/Services/Services";
 import Process from "@/components/Home/Process/Process";
-import FilmStory from "@/components/Home/FilmStory/FilmStory";
-import Shelf from "@/components/Home/Shelf/Shelf";
-import Principles from "@/components/Home/Principles/Principles";
-import Letters from "@/components/Home/Letters/Letters";
+import Work from "@/components/Home/Work/Work";
+import Trust from "@/components/Home/Trust/Trust";
+import Testimonials from "@/components/Home/Testimonials/Testimonials";
 import Faq from "@/components/Home/Faq/Faq";
-import Finale from "@/components/Home/Finale/Finale";
+import Cta from "@/components/Home/Cta/Cta";
 import JsonLd from "@/components/Seo/JsonLd";
 import { homeSchema } from "@/lib/schema";
 
@@ -17,23 +16,21 @@ export const metadata: Metadata = {
 };
 
 /**
- * The homepage reads like a book: a title sequence (hero), then chapters
- * I–VIII, each with its own surface, composition and motion language,
- * closing on the finale and the colophon (footer).
+ * Homepage — "Idea → Book". Each section is a Server Component with its own
+ * client *Motion sibling, so every section has a distinct motion language.
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Premise />
+      <Intro />
       <Services />
       <Process />
-      <FilmStory />
-      <Shelf />
-      <Principles />
-      <Letters />
+      <Work />
+      <Trust />
+      <Testimonials />
       <Faq />
-      <Finale />
+      <Cta />
       <JsonLd data={homeSchema()} />
     </>
   );

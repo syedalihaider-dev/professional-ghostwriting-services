@@ -3,27 +3,12 @@
 import { useSectionMotion } from "@/animations/useSectionMotion";
 import { gsap, MQ } from "@/lib/gsap";
 
-/** The closing word rises out of the page bottom as the reader arrives. */
+/** As the page lifts away, the footer rises from slightly deeper — parallax depth under the curtain. */
 export default function FooterMotion() {
   const marker = useSectionMotion((footer) => {
-    const word = footer.querySelector("[data-anim='word']");
-    const cols = footer.querySelectorAll("[data-anim='cols'] > *");
-    const mm = gsap.matchMedia();
-    mm.add(MQ.motion, () => {
-      gsap.from(word, {
-        yPercent: 70,
-        scaleY: 1.25,
-        transformOrigin: "50% 100%",
-        ease: "none",
-        scrollTrigger: { trigger: footer, start: "top 85%", end: "bottom bottom", scrub: 0.8 },
-      });
-      gsap.from(cols, {
-        y: 40,
-        opacity: 0,
-        stagger: 0.08,
-        duration: 1.1,
-        scrollTrigger: { trigger: footer, start: "top 80%", once: true },
-      });
+    const inner = footer.querySelector("[data-anim='inner']");
+    gsap.matchMedia().add(MQ.motion, () => {
+      gsap.fromTo(inner, { yPercent: -18, opacity: 0.4 }, { yPercent: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: footer, start: "top bottom", end: "bottom bottom", scrub: true } });
     });
   });
   return <span ref={marker} hidden />;

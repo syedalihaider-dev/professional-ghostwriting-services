@@ -1,0 +1,157 @@
+.section {
+  position: relative;
+  padding-block: var(--space-10) var(--space-9);
+}
+
+.reader {
+  display: grid;
+  gap: var(--space-7);
+  margin-top: var(--space-6);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.counter :global(.display) {
+  font-size: clamp(3rem, 2rem + 4vw, 6rem);
+  color: var(--cobalt);
+}
+
+.slot {
+  position: relative;
+  min-height: 22rem;
+}
+
+.mark {
+  position: absolute;
+  top: -0.32em;
+  left: -0.06em;
+  font-size: clamp(10rem, 6rem + 14vw, 24rem);
+  line-height: 1;
+  color: var(--cobalt);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.quote {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+}
+.quote[hidden] {
+  display: none;
+}
+
+.text {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-stretch: 85%;
+  font-size: clamp(1.9rem, 1rem + 3.6vw, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+  max-width: 22em;
+}
+
+.sign {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+}
+.name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--fg);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-7);
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding-bottom: 0.4rem;
+  color: var(--fg-muted);
+  transition: color var(--dur-base) ease;
+}
+.tab[aria-selected="true"] {
+  color: var(--fg);
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--cobalt);
+  transform-origin: left;
+}
+.fill[data-running] {
+  animation: fill linear both;
+}
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.arrows {
+  display: flex;
+  gap: 0.5rem;
+}
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius);
+  background: var(--black);
+  color: var(--white);
+  font-size: 1.1rem;
+  transition: background-color var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .arrow:hover {
+    background: var(--cobalt);
+  }
+}
+
+@media (min-width: 1024px) {
+  .reader {
+    grid-template-columns: 10rem 1fr;
+    column-gap: var(--space-7);
+  }
+  .counter {
+    flex-direction: column;
+  }
+  .controls {
+    grid-column: 1 / -1;
+  }
+}

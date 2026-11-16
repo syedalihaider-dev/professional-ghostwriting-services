@@ -1,18 +1,16 @@
 /**
  * Business facts — the single source of truth for brand, contact and SEO data.
  * Values are taken from the live site (professionalghostwritingservices.com).
- * Change them here, never inline in components.
  */
 export const site = {
   name: "Professional Ghostwriting Services",
-  shortName: "PGS",
   url: "https://professionalghostwritingservices.com",
   tagline: "Your story. Your voice. Our craft.",
 
   logo: {
-    ivory: { src: "/images/brand/logo-ivory.webp", width: 622, height: 382 },
-    ink: { src: "/images/brand/logo-ink.webp", width: 622, height: 382 },
-    png: "/images/brand/logo-ivory.png",
+    light: { src: "/images/brand/logo-light.webp", width: 622, height: 382 },
+    dark: { src: "/images/brand/logo-dark.webp", width: 622, height: 382 },
+    png: "/images/brand/logo-light.png",
   },
 
   contact: {
@@ -33,20 +31,20 @@ export const site = {
   seo: {
     title: "Professional Ghostwriting Services | Book Ghostwriters in the USA",
     description:
-      "Professional ghostwriting services that turn your ideas, expertise and stories into publish-ready books. Expert book and ebook ghostwriters, editors and publishing consultants — written in your voice, with all the credit yours.",
+      "Professional ghostwriting services that turn your ideas, expertise and stories into publish-ready books. Book, fiction, memoir and non-fiction ghostwriters, editors and publishing specialists — written in your voice, with all the credit yours.",
     ogImage: { src: "/images/og-image.jpg", width: 1200, height: 630 },
   },
 
   /** Primary navigation — in-page anchors until the inner pages are built. */
   nav: [
-    { label: "The Premise", href: "/#premise" },
     { label: "Services", href: "/#services" },
     { label: "Process", href: "/#process" },
-    { label: "The Shelf", href: "/#shelf" },
-    { label: "Letters", href: "/#letters" },
+    { label: "Work", href: "/#work" },
+    { label: "Why us", href: "/#why-us" },
+    { label: "Contact", href: "/#start" },
   ],
 
-  /** Legal pages exist on the roadmap but are not built yet — rendered as text. */
+  /** Legal pages are on the roadmap but not built yet — rendered as text. */
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy/", built: false },
     { label: "Terms & Conditions", href: "/terms-and-conditions/", built: false },
@@ -55,5 +53,3 @@ export const site = {
   /** Social profiles: none are published on the live site yet. */
   social: [] as { label: string; href: string }[],
 } as const;
-
-export type Site = typeof site;

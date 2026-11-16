@@ -15,14 +15,14 @@ import styles from "./Header.module.css";
 type Theme = "dark" | "light";
 
 /**
- * Fixed header. Retreats while reading down, returns on any upward scroll,
- * and swaps between ivory and ink artwork to suit the chapter beneath it
- * (sections declare `data-surface="light"` when they are paper).
+ * Minimal fixed header. Retreats while reading down, returns on any upward
+ * scroll, and flips its artwork to suit the section beneath it (sections
+ * declare `data-surface="light"`). The current surface is also published on
+ * <html data-surface> so the cursor can match it.
  */
 export default function Header() {
   const [theme, setTheme] = useState<Theme>("dark");
   const [hidden, setHidden] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const reduce = useReducedMotion();
@@ -30,7 +30,6 @@ export default function Header() {
 
   useEffect(() => onLoaderDone(() => setReady(true)), []);
 
-  // Direction-aware visibility.
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -39,25 +38,24 @@ export default function Header() {
         setHidden(delta > 0 && y > 240);
         lastY.current = y;
       }
-      setScrolled(y > 40);
     };
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Surface detection: whichever section sits under the header's midline.
   useEffect(() => {
     let triggers: ScrollTrigger[] = [];
     const build = () => {
-      triggers.forEach((t) => t.kill());
       triggers = Array.from(document.querySelectorAll<HTMLElement>("[data-surface]")).map((section) =>
         ScrollTrigger.create({
           trigger: section,
-          start: "top 40px",
-          end: "bottom 40px",
+          start: "top 36px",
+          end: "bottom 36px",
           onToggle: (self) => {
-            if (self.isActive) setTheme(section.dataset.surface === "light" ? "light" : "dark");
+            if (!self.isActive) return;
+            const next: Theme = section.dataset.surface === "light" ? "light" : "dark";
+            setTheme(next);
+            document.documentElement.dataset.surface = next;
           },
         }),
       );
@@ -74,15 +72,14 @@ export default function Header() {
       <motion.header
         className={styles.header}
         data-theme={menuOpen ? "dark" : theme}
-        data-scrolled={scrolled || undefined}
         initial={false}
         animate={{ y: hidden && !menuOpen ? "-110%" : "0%", opacity: ready ? 1 : 0 }}
-        transition={{ duration: reduce ? 0 : 0.7, ease: BEZIER.out }}
+        transition={{ duration: reduce ? 0 : 0.6, ease: BEZIER.out }}
       >
         <div className={styles.bar}>
-          <Link href="/" className={styles.logo} aria-label={`${site.name} — home`} data-cursor="Home">
-            <Image className={styles.logoIvory} src={site.logo.ivory.src} alt="" width={site.logo.ivory.width} height={site.logo.ivory.height} priority />
-            <Image className={styles.logoInk} src={site.logo.ink.src} alt="" width={site.logo.ink.width} height={site.logo.ink.height} />
+          <Link href="/" className={styles.logo} aria-label={`${site.name} — home`}>
+            <Image className={styles.logoLight} src={site.logo.light.src} alt="" width={site.logo.light.width} height={site.logo.light.height} priority />
+            <Image className={styles.logoDark} src={site.logo.dark.src} alt="" width={site.logo.dark.width} height={site.logo.dark.height} />
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
@@ -93,7 +90,7 @@ export default function Header() {
                     <span className={styles.navNum} aria-hidden="true">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="link-line">{item.label}</span>
+                    <span className={styles.navText}>{item.label}</span>
                   </a>
                 </li>
               ))}
@@ -101,24 +98,18 @@ export default function Header() {
           </nav>
 
           <div className={styles.actions}>
-            <a href={site.contact.phone.href} className={`${styles.phone} link-line`}>
+            <a href={site.contact.phone.href} className={`${styles.phone} link-u`}>
               {site.contact.phone.display}
             </a>
-            <Button lead className={styles.cta}>
-              Begin your book
-            </Button>
-            <button
-              type="button"
-              className={styles.toggle}
-              aria-expanded={menuOpen}
-              aria-controls="site-menu"
-              onClick={() => setMenuOpen((o) => !o)}
-            >
+            <span className={styles.cta}>
+              <Button lead>Start your book</Button>
+            </span>
+            <button type="button" className={styles.toggle} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen((o) => !o)}>
               <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
               <span className={styles.toggleLabel} aria-hidden="true">
                 {menuOpen ? "Close" : "Menu"}
               </span>
-              <span className={styles.toggleLines} aria-hidden="true" data-open={menuOpen || undefined}>
+              <span className={styles.toggleIcon} aria-hidden="true" data-open={menuOpen || undefined}>
                 <span />
                 <span />
               </span>

@@ -1,12 +1,11 @@
 .header {
-  --h-fg: var(--paper);
+  --h-fg: var(--white);
   position: fixed;
   inset: 0 0 auto;
   z-index: var(--z-header);
   color: var(--h-fg);
-  transition: color var(--dur-base) var(--ease-out);
-  /* Hidden until the preloader hands over (avoids a flash behind it). */
   opacity: 0;
+  transition: color var(--dur-base) var(--ease-out);
 }
 
 :global(html:not(.js)) .header {
@@ -14,29 +13,10 @@
 }
 
 .header[data-theme="light"] {
-  --h-fg: var(--ink);
-}
-
-/* A soft veil for legibility once the reader has left the very top. */
-.header::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 -40%;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(to bottom, rgb(15 14 12 / 0.7), transparent);
-  transition: opacity var(--dur-base) var(--ease-out);
-}
-.header[data-scrolled][data-theme="dark"]::before {
-  opacity: 1;
-}
-.header[data-scrolled][data-theme="light"]::before {
-  opacity: 1;
-  background: linear-gradient(to bottom, rgb(236 228 214 / 0.82), transparent);
+  --h-fg: var(--black);
 }
 
 .bar {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,11 +25,11 @@
   padding-inline: var(--gutter);
 }
 
-/* ---- Logo (two artworks crossfade with the surface) ---- */
+/* ---- Logo ---- */
 .logo {
   position: relative;
   display: block;
-  width: clamp(4.75rem, 3.9rem + 2.4vw, 6.4rem);
+  width: clamp(4.25rem, 3.6rem + 2vw, 5.75rem);
   aspect-ratio: 622 / 382;
   flex: none;
 }
@@ -60,111 +40,121 @@
   height: 100%;
   transition: opacity var(--dur-base) var(--ease-out);
 }
-.logoInk {
+.logoDark,
+.header[data-theme="light"] .logoLight {
   opacity: 0;
 }
-.header[data-theme="light"] .logoInk {
+.header[data-theme="light"] .logoDark {
   opacity: 1;
 }
-.header[data-theme="light"] .logoIvory {
-  opacity: 0;
-}
 
-/* ---- Nav ---- */
+/* ---- Nav: mono, indexed, a pill highlights the hovered item ---- */
 .nav {
   display: none;
 }
 .nav ul {
   display: flex;
-  gap: clamp(1.25rem, 2.2vw, 2.75rem);
+  gap: 0.25rem;
 }
 .navLink {
+  position: relative;
   display: inline-flex;
   align-items: baseline;
-  gap: 0.45rem;
-  font-size: var(--fs-small);
-  letter-spacing: 0.02em;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
 .navNum {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 0.8125rem;
-  opacity: 0.55;
+  opacity: 0.5;
+  font-size: 0.6875rem;
+}
+@media (hover: hover) {
+  .navLink:hover {
+    background: var(--volt);
+    color: var(--black);
+  }
+  .navLink:hover .navNum {
+    opacity: 1;
+  }
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 1.6vw, 1.75rem);
+  gap: clamp(0.75rem, 1.4vw, 1.5rem);
 }
 
-/* Phone: visible on phones (no CTA there) and wide screens; hidden in between. */
 .actions .phone {
-  font-size: var(--fs-small);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.03em;
 }
 
 .cta {
   display: none;
 }
-
-/* The header button follows the header theme, not the section surface. */
-.header .cta,
-.header :global(button) {
+/* The header CTA follows the header theme, not the section surface. */
+.cta {
+  --accent: var(--volt);
+  --on-accent: var(--black);
   --fg: var(--h-fg);
-  --bg: var(--ink);
-  --accent: var(--brass-soft);
+  --bg: var(--black);
 }
-.header[data-theme="light"] :global(button) {
-  --bg: var(--paper);
-  --accent: var(--oxblood);
+.header[data-theme="light"] .cta {
+  --accent: var(--black);
+  --on-accent: var(--white);
+  --bg: var(--white);
 }
 
-/* ---- Menu toggle ---- */
+/* ---- Toggle ---- */
 .toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
   min-height: 2.75rem;
-  padding-inline: 0.25rem;
   color: var(--h-fg);
 }
 .toggleLabel {
-  font-size: var(--fs-micro);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
-.toggleLines {
+.toggleIcon {
   position: relative;
-  width: 1.75rem;
-  height: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius);
+  background: var(--volt);
 }
-.toggleLines span {
+.toggleIcon span {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: currentColor;
-  transition: transform var(--dur-base) var(--ease-in-out), top var(--dur-base) var(--ease-in-out);
+  width: 1.1rem;
+  height: 2px;
+  background: var(--black);
+  transition: transform var(--dur-base) var(--ease-in-out);
 }
-.toggleLines span:first-child {
-  top: 0;
+.toggleIcon span:first-child {
+  transform: translateY(-3px);
 }
-.toggleLines span:last-child {
-  top: 100%;
-  transform-origin: right;
-  transform: scaleX(0.6);
+.toggleIcon span:last-child {
+  transform: translateY(3px);
 }
-.toggleLines[data-open] span:first-child {
-  top: 50%;
+.toggleIcon[data-open] span:first-child {
   transform: rotate(45deg);
 }
-.toggleLines[data-open] span:last-child {
-  top: 50%;
+.toggleIcon[data-open] span:last-child {
   transform: rotate(-45deg);
-  transform-origin: center;
 }
 
 @media (min-width: 768px) {
@@ -186,12 +176,12 @@
   .nav {
     display: block;
   }
-  .toggle {
+  .toggleLabel {
     display: none;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1440px) {
   .actions .phone {
     display: inline-block;
   }

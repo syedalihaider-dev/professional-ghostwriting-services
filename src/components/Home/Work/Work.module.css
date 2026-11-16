@@ -1,0 +1,145 @@
+.work {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  padding-block: var(--space-9);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.pin::-webkit-scrollbar {
+  display: none;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding-inline: var(--gutter);
+  gap: clamp(2rem, 6vw, 7rem);
+}
+
+/* ---------- Intro panel ---------- */
+.introPanel {
+  display: grid;
+  gap: var(--space-5);
+  width: min(84vw, 38rem);
+  scroll-snap-align: start;
+}
+.title {
+  font-size: var(--fs-h2);
+}
+.intro {
+  max-width: 38ch;
+}
+.hint {
+  display: none;
+}
+
+/* ---------- Books ---------- */
+.books {
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 7vw, 9rem);
+}
+
+.item {
+  position: relative;
+  display: grid;
+  place-items: center;
+  scroll-snap-align: center;
+}
+
+/* Outlined title behind the cover. */
+.ghost {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -60%;
+  font-size: clamp(5rem, 2rem + 13vw, 17rem);
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(243 244 246 / 0.22);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.figure {
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.cover {
+  width: clamp(13rem, 10rem + 14vw, 24rem);
+  aspect-ratio: 264 / 380;
+  box-shadow: 0 2rem 4rem rgb(0 0 0 / 0.6);
+  will-change: transform;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caption {
+  display: grid;
+  gap: 0.3rem;
+}
+.bookTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.meta {
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Distribution panel ---------- */
+.endPanel {
+  display: grid;
+  gap: var(--space-5);
+  width: min(84vw, 44rem);
+  padding-right: var(--gutter);
+  scroll-snap-align: end;
+}
+.platforms {
+  display: grid;
+}
+.platforms li {
+  font-size: clamp(2.5rem, 1.6rem + 4vw, 6rem);
+  line-height: 0.95;
+  border-bottom: 1px solid var(--line);
+  padding-block: 0.12em 0.04em;
+  transition: color var(--dur-base) var(--ease-out), padding var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .platforms li:hover {
+    color: var(--volt);
+    padding-left: 0.2em;
+  }
+}
+
+/* ---------- Scroll mode (desktop + motion): pinned, driven by scroll ---------- */
+.work[data-mode="scroll"] .pin {
+  height: 100svh;
+  padding-block: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.work[data-mode="scroll"] .track {
+  padding-inline: var(--gutter) 0;
+}
+.work[data-mode="scroll"] .hint {
+  display: inline-flex;
+}
+.work[data-mode="scroll"] .cover {
+  width: auto;
+  height: min(58vh, 38rem);
+}

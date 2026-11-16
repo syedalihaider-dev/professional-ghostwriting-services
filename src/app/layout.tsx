@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Inter_Tight } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import { site } from "@/config/site";
 import Preloader from "@/components/Layout/Preloader/Preloader";
 import SmoothScroll from "@/components/Layout/SmoothScroll/SmoothScroll";
@@ -7,22 +7,19 @@ import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 import LeadDialog from "@/components/Layout/LeadDialog/LeadDialog";
 import Cursor from "@/components/Layout/Cursor/Cursor";
-import Folio from "@/components/Layout/Folio/Folio";
 import "./globals.css";
 
-const display = Instrument_Serif({
-  variable: "--font-instrument",
+/** Display: variable width + optical size — condensed 800 for the headlines. */
+const display = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  axes: ["wdth", "opsz"],
   display: "swap",
 });
 
-const body = Inter_Tight({
-  variable: "--font-inter-tight",
-  subsets: ["latin"],
-  display: "swap",
-});
+const body = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
+
+const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], weight: ["500"], display: "swap" });
 
 const { seo } = site;
 
@@ -45,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f0e0c",
+  themeColor: "#0a0a0c",
   colorScheme: "dark",
 };
 
@@ -55,7 +52,7 @@ const jsFlag = `document.documentElement.classList.add('js')`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-US" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang="en-US" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
       </head>
@@ -70,7 +67,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
-        <Folio />
         <LeadDialog />
         <Cursor />
       </body>

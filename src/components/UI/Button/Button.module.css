@@ -1,41 +1,41 @@
 .btn {
-  --btn-bg: var(--fg);
-  --btn-fg: var(--bg);
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
   min-height: 3.25rem;
-  padding: 0 1.6rem 0 1.85rem;
-  border-radius: 999px;
-  font-size: var(--fs-small);
+  padding: 0 1.4rem;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   white-space: nowrap;
   isolation: isolate;
   overflow: hidden;
   transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }
 
-/* Fill sweeps up from below on hover — an ink line rising. */
+/* A second colour sweeps in from the left on hover — a line being selected. */
 .btn::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  border-radius: inherit;
-  background: var(--accent);
-  transform: translateY(101%);
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left;
   transition: transform var(--dur-base) var(--ease-out);
 }
 
 .inner {
   display: inline-flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.75rem;
 }
 
-/* Two stacked copies; hover rolls the second into view like a line feed. */
 .text {
   display: block;
   height: 1.4em;
@@ -54,13 +54,12 @@
   transition: transform var(--dur-base) var(--ease-out);
 }
 
-/* Variants */
 .solid {
-  background: var(--btn-bg);
-  color: var(--btn-fg);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 .outline {
-  border: 1px solid currentColor;
+  border: 1px solid var(--line);
   color: var(--fg);
 }
 .ghost {
@@ -73,19 +72,19 @@
 }
 
 .lg {
-  min-height: 4rem;
-  padding: 0 2rem 0 2.4rem;
-  font-size: 0.9375rem;
+  min-height: 3.75rem;
+  padding: 0 1.75rem;
+  font-size: 0.875rem;
 }
 
 @media (hover: hover) {
   .btn:hover::before {
-    transform: translateY(0);
+    transform: scaleX(1);
   }
   .solid:hover,
   .outline:hover {
     color: var(--bg);
-    border-color: var(--accent);
+    border-color: var(--fg);
   }
   .btn:hover .roll {
     transform: translateY(-50%);

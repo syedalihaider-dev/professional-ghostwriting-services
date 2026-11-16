@@ -12,71 +12,86 @@
   justify-content: space-between;
   gap: var(--space-7);
   min-height: 100%;
-  padding: calc(var(--header-h) + var(--space-6)) var(--gutter) var(--space-6);
+  padding: calc(var(--header-h) + var(--space-5)) var(--gutter) var(--space-6);
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .mask {
   overflow: clip;
-  overflow-clip-margin: 0.1em;
+  border-bottom: 1px solid var(--line);
 }
 
 .link {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 1rem;
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 10vw, 5.5rem);
-  line-height: 1.02;
+  padding-block: 0.1em 0.04em;
+  font-size: clamp(3.25rem, 1rem + 11vw, 9.5rem);
 }
 
 .num {
-  font-family: var(--font-body);
-  font-size: var(--fs-micro);
-  letter-spacing: var(--tracking-label);
-  color: var(--accent);
-  transform: translateY(-1.2em);
+  align-self: flex-start;
+  margin-top: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
 }
 
 .text {
-  transition: transform var(--dur-base) var(--ease-out), font-style 0s;
+  transition: transform var(--dur-base) var(--ease-out);
 }
+
+.caret {
+  width: 0.35em;
+  height: 0.7em;
+  background: var(--volt);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
 .link:hover .text,
 .link:focus-visible .text {
-  font-style: italic;
-  transform: translateX(0.75rem);
+  transform: translateX(0.15em);
+}
+.link:hover .caret,
+.link:focus-visible .caret {
+  transform: scaleX(1);
 }
 
 .foot {
-  display: grid;
-  gap: var(--space-5);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--rule);
-}
-.foot > div {
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
 }
 
-.contact {
+.phone {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 2rem;
 }
-.contactSmall {
-  font-size: var(--fs-small);
+
+.email {
   overflow-wrap: anywhere;
 }
 
 .begin {
-  justify-self: start;
-  padding: 0.9rem 1.5rem;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  font-size: var(--fs-small);
+  margin-left: auto;
+  min-height: 3.25rem;
+  padding-inline: 1.4rem;
+  border-radius: var(--radius);
+  background: var(--volt);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }

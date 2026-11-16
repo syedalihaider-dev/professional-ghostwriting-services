@@ -30,7 +30,7 @@ export default function LeadDialog() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="lead-title"
-            className={`surface-paper ${styles.sheet}`}
+            className={`surface-graphite ${styles.sheet}`}
             initial={reduce ? { opacity: 0 } : { x: "100%" }}
             animate={reduce ? { opacity: 1 } : { x: "0%" }}
             exit={reduce ? { opacity: 0 } : { x: "100%" }}
@@ -71,21 +71,19 @@ function LeadForm({ initialService }: { initialService: string }) {
   return (
     <div className={styles.inner}>
       <div className={styles.head}>
-        <p className="chapter-mark">
-          <b>A new chapter</b>
-        </p>
+        <p className="label caret-label">New project</p>
         <button type="button" className={styles.close} onClick={leadStore.close}>
           Close <span aria-hidden="true">×</span>
         </button>
       </div>
 
       <h2 id="lead-title" className={styles.title}>
-        Tell us about <em>your</em> book.
+        Tell us about <em>your book.</em>
       </h2>
 
       {status === "sent" ? (
         <div className={styles.done} role="status">
-          <p className={styles.doneTitle}>Thank you — your letter is on our desk.</p>
+          <p className={styles.doneTitle}>Thank you — your enquiry is in.</p>
           <p className="muted">We&rsquo;ll be in touch shortly. If it&rsquo;s easier to talk now, call us on {site.contact.phone.display}.</p>
         </div>
       ) : (

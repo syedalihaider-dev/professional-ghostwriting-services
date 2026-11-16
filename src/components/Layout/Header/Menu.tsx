@@ -8,21 +8,13 @@ import { BEZIER } from "@/lib/motion";
 import styles from "./Menu.module.css";
 
 /**
- * Full-screen menu, designed as a table of contents: the ink spreads from the
- * toggle's corner, entries rise line by line, and contact details settle in
- * last. Closing reverses the choreography.
+ * Full-screen menu. A cobalt field wipes down from the header, then the
+ * navigation drops in as giant condensed lines; hovering a line sends a volt
+ * caret ahead of it. Exits snap back up.
  */
 export default function Menu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useDialog<HTMLDivElement>(open, onClose);
   const reduce = useReducedMotion();
-
-  const panel = reduce
-    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
-    : {
-        initial: { clipPath: "circle(0% at calc(100% - 3rem) 2.75rem)" },
-        animate: { clipPath: "circle(150% at calc(100% - 3rem) 2.75rem)" },
-        exit: { clipPath: "circle(0% at calc(100% - 3rem) 2.75rem)" },
-      };
 
   return (
     <AnimatePresence>
@@ -33,30 +25,30 @@ export default function Menu({ open, onClose }: { open: boolean; onClose: () => 
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className={`surface-ink ${styles.menu}`}
-          {...panel}
-          transition={{ duration: reduce ? 0.2 : 0.9, ease: BEZIER.inOut }}
+          className={`surface-cobalt ${styles.menu}`}
+          initial={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)" }}
+          animate={reduce ? { opacity: 1 } : { clipPath: "inset(0% 0% 0% 0%)" }}
+          exit={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)", transition: { duration: 0.55, ease: BEZIER.inOut, delay: 0.15 } }}
+          transition={{ duration: reduce ? 0.2 : 0.8, ease: BEZIER.inOut }}
           data-lenis-prevent
         >
           <div className={styles.inner}>
-            <p className="chapter-mark">
-              <b>Contents</b>
-            </p>
             <nav aria-label="Menu">
               <ol role="list" className={styles.list}>
                 {site.nav.map((item, i) => (
                   <li key={item.href} className={styles.mask}>
                     <motion.a
                       href={item.href}
-                      className={styles.link}
+                      className={`display ${styles.link}`}
                       onClick={onClose}
-                      initial={{ y: reduce ? 0 : "110%" }}
+                      initial={{ y: reduce ? 0 : "105%" }}
                       animate={{ y: "0%" }}
-                      exit={{ y: reduce ? 0 : "-110%", transition: { duration: 0.35, ease: BEZIER.inOut } }}
-                      transition={{ duration: 0.9, ease: BEZIER.out, delay: reduce ? 0 : 0.25 + i * 0.06 }}
+                      exit={{ y: reduce ? 0 : "-105%", transition: { duration: 0.3, ease: BEZIER.inOut } }}
+                      transition={{ duration: 0.8, ease: BEZIER.out, delay: reduce ? 0 : 0.3 + i * 0.05 }}
                     >
                       <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
                       <span className={styles.text}>{item.label}</span>
+                      <span className={styles.caret} aria-hidden="true" />
                     </motion.a>
                   </li>
                 ))}
@@ -67,21 +59,15 @@ export default function Menu({ open, onClose }: { open: boolean; onClose: () => 
               className={styles.foot}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              transition={{ duration: 0.7, ease: BEZIER.out, delay: reduce ? 0 : 0.6 }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.6, ease: BEZIER.out, delay: reduce ? 0 : 0.6 }}
             >
-              <div>
-                <span className="label muted">Call</span>
-                <a href={site.contact.phone.href} className={styles.contact}>
-                  {site.contact.phone.display}
-                </a>
-              </div>
-              <div>
-                <span className="label muted">Write</span>
-                <a href={site.contact.email.href} className={styles.contactSmall}>
-                  {site.contact.email.display}
-                </a>
-              </div>
+              <a href={site.contact.phone.href} className={styles.phone}>
+                {site.contact.phone.display}
+              </a>
+              <a href={site.contact.email.href} className={`label ${styles.email}`}>
+                {site.contact.email.display}
+              </a>
               <button
                 type="button"
                 className={styles.begin}
@@ -91,7 +77,7 @@ export default function Menu({ open, onClose }: { open: boolean; onClose: () => 
                 }}
                 aria-haspopup="dialog"
               >
-                Begin your book →
+                Start your book →
               </button>
             </motion.div>
           </div>
