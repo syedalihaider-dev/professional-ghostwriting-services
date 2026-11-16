@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Matches the live WordPress URLs (/about-us/, /contact/) for SEO continuity.
+  trailingSlash: true,
   experimental: {
     agentFeedback: true,
   },

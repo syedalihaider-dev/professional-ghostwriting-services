@@ -1,0 +1,71 @@
+.cta {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+}
+/* With JS the stage starts black and the blinds close over it. */
+:global(html.js) .cta .pin {
+  background: var(--black);
+}
+
+.blinds {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+}
+.blind {
+  background: var(--cobalt);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-7);
+  padding-block: var(--space-9);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.6rem, 0.4rem + 14vw, 17rem);
+  line-height: 0.86;
+  color: var(--pure);
+}
+.answer {
+  color: var(--volt);
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.6rem;
+  width: clamp(9rem, 7rem + 7vw, 13rem);
+  aspect-ratio: 1;
+  padding: 1.5rem;
+  border-radius: 50%;
+  background: var(--volt);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .seal:hover {
+    background: var(--pure);
+  }
+}

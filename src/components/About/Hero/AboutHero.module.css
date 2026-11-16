@@ -1,0 +1,135 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: clip;
+}
+
+/* ---------- Layered photographs ---------- */
+.layers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.layer {
+  position: absolute;
+  overflow: hidden;
+  will-change: transform;
+}
+.layerInner {
+  position: absolute;
+  inset: -6%;
+  will-change: transform;
+}
+.layerInner img {
+  object-fit: cover;
+}
+
+.l1 {
+  top: 15%;
+  right: 4vw;
+  width: clamp(8rem, 15vw, 17rem);
+  aspect-ratio: 3 / 4;
+}
+.l2 {
+  top: 52%;
+  right: 30vw;
+  width: clamp(6rem, 11vw, 12rem);
+  aspect-ratio: 3 / 4;
+}
+.l3 {
+  bottom: 7%;
+  right: 9vw;
+  width: clamp(9rem, 17vw, 19rem);
+  aspect-ratio: 4 / 5;
+}
+
+/* ---------- Statement ---------- */
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-6);
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + var(--space-4)) var(--space-6);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.2rem, 0.4rem + 12vw, 13rem);
+  line-height: 0.86;
+}
+
+.row {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.06em;
+}
+.row > span {
+  display: inline-block;
+}
+/* Indents give the stack its typeset rhythm. */
+.r1 {
+  padding-left: 0.5em;
+}
+.r3 {
+  padding-left: 0.9em;
+}
+.r4 {
+  padding-left: 1.8em;
+}
+
+.accent {
+  color: var(--volt);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-5);
+}
+
+.lede {
+  max-width: 40ch;
+  color: var(--silver);
+}
+
+.cue {
+  padding-block: 0.4rem;
+}
+
+@media (max-width: 767.98px) {
+  .l2 {
+    display: none;
+  }
+  .l1 {
+    top: 12%;
+    right: var(--gutter);
+    opacity: 0.55;
+  }
+  .l3 {
+    opacity: 0.55;
+    bottom: 22%;
+  }
+  .r3,
+  .r4 {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: clamp(5rem, 9.6vw, 15rem);
+    max-width: 75vw;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .title {
+    font-size: min(9.6vw, 13.5vh);
+  }
+}

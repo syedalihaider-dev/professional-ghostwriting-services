@@ -2,7 +2,7 @@
 
 import { useSectionMotion } from "@/animations/useSectionMotion";
 import { gsap, MQ, SplitText } from "@/lib/gsap";
-import { onLoaderDone } from "@/lib/loader";
+import { onReveal } from "@/lib/loader";
 
 /**
  * Hero choreography.
@@ -42,7 +42,7 @@ export default function HeroMotion() {
         .to(word, { yPercent: 0, duration: 1.5, ease: "expo.out" }, 0.25)
         .to(film, { scale: 1.12, duration: 2.4, ease: "power3.out" }, 0.25)
         .to(fades, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08, ease: "power3.out" }, 0.8);
-      const off = onLoaderDone(() => intro.play());
+      const off = onReveal(() => intro.play());
 
       if (!desktop) {
         return () => {

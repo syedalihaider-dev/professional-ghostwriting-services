@@ -74,6 +74,9 @@
   opacity: 0.5;
   font-size: 0.6875rem;
 }
+.navLink[aria-current="page"] {
+  box-shadow: inset 0 -2px 0 var(--volt);
+}
 @media (hover: hover) {
   .navLink:hover {
     background: var(--volt);

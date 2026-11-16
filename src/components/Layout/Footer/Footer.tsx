@@ -51,7 +51,7 @@ export default function Footer() {
             <ul role="list">
               {services.items.map((s) => (
                 <li key={s.id}>
-                  <a href="#services" className="link-u">
+                  <a href={"/#services"} className="link-u">
                     {s.title}
                   </a>
                 </li>

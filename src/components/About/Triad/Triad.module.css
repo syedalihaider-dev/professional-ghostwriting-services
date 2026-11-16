@@ -1,0 +1,67 @@
+.triad {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  padding-block: var(--space-9);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.item {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.phrase {
+  display: block;
+  font-size: clamp(3.6rem, 0.4rem + 15vw, 22rem);
+  line-height: 0.84;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* "Our craft." — the company's part — in the accent. */
+.ours {
+  color: var(--volt);
+}
+
+.note {
+  display: flex;
+  gap: var(--space-3);
+  max-width: 34ch;
+  /* Near-white: stays legible on black and on the cobalt the room turns to. */
+  color: rgb(243 244 246 / 0.86);
+  font-size: var(--fs-small);
+}
+.note :global(.label) {
+  color: var(--volt);
+  padding-top: 0.15rem;
+}
+
+@media (min-width: 1024px) {
+  .list {
+    gap: 0;
+  }
+  .item {
+    grid-template-columns: 1fr 18rem;
+    align-items: end;
+    column-gap: var(--space-6);
+  }
+  .phrase {
+    font-size: min(15vw, 25vh);
+  }
+  .note {
+    padding-bottom: 1.2rem;
+  }
+  .item:nth-child(2) .phrase {
+    padding-left: 8vw;
+  }
+}

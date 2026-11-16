@@ -1,0 +1,108 @@
+.main {
+  position: relative;
+  z-index: 2;
+  padding-block: var(--space-9) var(--space-10);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-9);
+}
+
+/* ---------- Contact details as typography ---------- */
+.info {
+  display: grid;
+  gap: var(--space-8);
+  align-content: start;
+}
+
+.details {
+  display: grid;
+  gap: var(--space-6);
+}
+.details > div {
+  display: grid;
+  gap: 0.4rem;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.phone {
+  font-size: clamp(2.6rem, 1.4rem + 4.4vw, 5.5rem);
+  line-height: 0.9;
+  transition: color var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .phone:hover {
+    color: var(--cobalt);
+  }
+}
+
+.email {
+  font-size: var(--fs-lead);
+  overflow-wrap: anywhere;
+}
+
+.address {
+  display: grid;
+  gap: 0.15rem;
+  font-size: var(--fs-lead);
+}
+.maps {
+  justify-self: start;
+  margin-top: var(--space-3);
+  padding: 0.55rem 0.8rem;
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius);
+  transition: background-color var(--dur-base) var(--ease-out);
+}
+.maps:hover {
+  background: var(--cobalt);
+}
+
+/* ---------- What happens next ---------- */
+.next {
+  display: grid;
+  gap: var(--space-5);
+}
+.next ol {
+  display: grid;
+  gap: var(--space-5);
+}
+.next li {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: var(--space-4);
+}
+.nextNum {
+  font-size: 2.5rem;
+  color: var(--cobalt);
+}
+.nextTitle {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-stretch: 100%;
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.formCol {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-9);
+  }
+  .info {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5));
+    align-self: start;
+  }
+}

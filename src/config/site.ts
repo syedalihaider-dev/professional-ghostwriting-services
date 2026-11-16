@@ -35,13 +35,13 @@ export const site = {
     ogImage: { src: "/images/og-image.jpg", width: 1200, height: 630 },
   },
 
-  /** Primary navigation — in-page anchors until the inner pages are built. */
+  /** Primary navigation. Homepage sections are anchors; inner pages are routes. */
   nav: [
     { label: "Services", href: "/#services" },
     { label: "Process", href: "/#process" },
     { label: "Work", href: "/#work" },
-    { label: "Why us", href: "/#why-us" },
-    { label: "Contact", href: "/#start" },
+    { label: "About", href: "/about-us/" },
+    { label: "Contact", href: "/contact/" },
   ],
 
   /** Legal pages are on the roadmap but not built yet — rendered as text. */

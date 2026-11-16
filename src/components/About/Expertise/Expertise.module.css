@@ -1,0 +1,103 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.stage {
+  position: relative;
+  min-height: 100svh;
+}
+
+/* ---------- Backgrounds ---------- */
+.bgs {
+  position: absolute;
+  inset: 0;
+}
+.bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  scale: 1.08;
+  transition: opacity 0.7s var(--ease-out), scale 1.4s var(--ease-out);
+}
+.bg img {
+  object-fit: cover;
+}
+.bg[data-on] {
+  opacity: 1;
+  scale: 1;
+}
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(10 10 12 / 0.82), rgb(10 10 12 / 0.55) 40%, rgb(10 10 12 / 0.9));
+}
+
+/* ---------- Typographic index ---------- */
+.inner {
+  position: relative;
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-7);
+  min-height: 100svh;
+  padding-block: var(--space-9) var(--space-7);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+}
+.title {
+  font-size: var(--fs-h3);
+  text-transform: uppercase;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.18em;
+  font-size: clamp(2.8rem, 0.6rem + 8.4vw, 10.5rem);
+  line-height: 0.95;
+}
+.words li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.18em;
+}
+
+.word {
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--white);
+  transition: color 0.35s var(--ease-out), opacity 0.35s var(--ease-out);
+}
+.stage[data-active] .word {
+  opacity: 0.22;
+}
+.stage[data-active] .word[data-on] {
+  opacity: 1;
+  color: var(--volt);
+}
+
+.sep {
+  color: var(--cobalt);
+  font-stretch: 100%;
+  font-weight: 300;
+}
+
+.caption {
+  min-height: 3.5rem;
+}
+.caption p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+}
+.note {
+  max-width: 52ch;
+  color: rgb(243 244 246 / 0.86);
+}

@@ -1,0 +1,41 @@
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-preloader) - 1);
+  display: none;
+  place-items: center;
+  background: var(--black);
+  color: var(--white);
+}
+
+/* A volt edge leads the sheet as it rises. */
+.cover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: var(--volt);
+}
+
+.word {
+  display: inline-flex;
+  align-items: baseline;
+  min-height: 0.9em;
+  font-size: clamp(4.5rem, 1rem + 18vw, 22rem);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.36em;
+  height: 0.72em;
+  margin-left: 0.04em;
+  background: var(--volt);
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

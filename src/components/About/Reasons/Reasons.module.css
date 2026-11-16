@@ -1,0 +1,95 @@
+.section {
+  position: relative;
+  padding-block: var(--space-10);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+}
+.title {
+  font-size: var(--fs-h2);
+}
+
+.list {
+  border-top: 1px solid var(--fg);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--line);
+}
+.item > :global(.label) {
+  padding-top: 0.6rem;
+}
+
+.itemTitle {
+  position: relative;
+  justify-self: start;
+  font-size: clamp(2.4rem, 1.2rem + 4.4vw, 6.25rem);
+  isolation: isolate;
+}
+.itemText {
+  position: relative;
+}
+
+/* The highlighter: a volt band behind the lower two-thirds of the line. */
+.mark {
+  position: absolute;
+  left: -0.08em;
+  right: -0.12em;
+  top: 0.3em;
+  bottom: 0.02em;
+  z-index: -1;
+  background: var(--volt);
+  transform: scaleX(1);
+  transform-origin: left;
+  skew: -6deg 0deg;
+}
+
+.itemBody {
+  grid-column: 2;
+  max-width: 46ch;
+  color: var(--fg-muted);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+
+.media {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    column-gap: var(--space-8);
+  }
+  .head {
+    grid-column: 1 / -1;
+  }
+  .media {
+    display: block;
+  }
+  .mediaSticky {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .shot {
+    position: absolute;
+    inset: 0;
+  }
+  .shot img {
+    object-fit: cover;
+  }
+}

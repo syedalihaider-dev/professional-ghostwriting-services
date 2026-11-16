@@ -40,6 +40,11 @@
   inset: 0;
   will-change: transform;
 }
+/* Film panels are graded live to match the mono stills. */
+.media video {
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+}
+
 /* Hover zoom lives on the child: GSAP owns .media's transform. */
 .cover {
   object-fit: cover;

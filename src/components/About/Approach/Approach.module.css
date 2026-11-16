@@ -1,0 +1,191 @@
+.approach {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  padding-block: var(--space-9);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+}
+.title {
+  font-size: var(--fs-h3);
+  text-transform: uppercase;
+  max-width: 16em;
+}
+
+/* Static: no reader, first image only, a plain list. */
+.reader {
+  display: none;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--black);
+}
+.shot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.shot:not(:first-child) {
+  display: none;
+}
+.shotInner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.shotInner img {
+  object-fit: cover;
+}
+
+.steps {
+  display: grid;
+  gap: var(--space-5);
+}
+.step {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--fg-muted);
+}
+.stepTitle {
+  display: grid;
+  gap: 0.3rem;
+  color: var(--fg);
+}
+.stepTitle :global(.label) {
+  color: var(--volt);
+}
+.stepWord {
+  font-size: var(--fs-h3);
+}
+
+/* =====================================================================
+   Scroll mode: pinned teleprompter.
+   ===================================================================== */
+.approach[data-mode="scroll"] .pin {
+  height: 100svh;
+  padding-block: calc(var(--header-h) + var(--space-4)) var(--space-6);
+}
+.approach[data-mode="scroll"] .layout {
+  height: 100%;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-5);
+}
+.approach[data-mode="scroll"] .title {
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.4rem);
+}
+
+.approach[data-mode="scroll"] .reader {
+  position: relative;
+  display: flex;
+  gap: var(--space-5);
+  min-height: 0;
+}
+.track {
+  position: relative;
+  width: 3px;
+  background: rgb(243 244 246 / 0.15);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* The reading window: words scroll through a line at its centre. */
+.window {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  --row: clamp(4rem, 2rem + 6vw, 9rem);
+  mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+}
+.column {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - var(--row) / 2);
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.word {
+  display: block;
+  height: var(--row);
+  font-size: var(--row);
+  line-height: 1;
+  color: rgb(243 244 246 / 0.16);
+  transform-origin: 0% 50%;
+}
+
+.approach[data-mode="scroll"] .media {
+  aspect-ratio: auto;
+  min-height: 0;
+}
+.approach[data-mode="scroll"] .shot {
+  display: block;
+}
+
+.approach[data-mode="scroll"] .steps {
+  position: relative;
+  display: grid;
+  min-height: 6rem;
+}
+.approach[data-mode="scroll"] .step {
+  grid-area: 1 / 1;
+  border: 0;
+  padding: 0;
+}
+.approach[data-mode="scroll"] .stepWord {
+  display: none;
+}
+
+@media (max-width: 1023.98px) {
+  .approach[data-mode="scroll"] .layout {
+    grid-template-rows: auto minmax(0, 0.9fr) minmax(0, 1fr) auto;
+  }
+  .approach[data-mode="scroll"] .window {
+    --row: clamp(3rem, 14vw, 5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .approach[data-mode="scroll"] .layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: var(--space-8);
+  }
+  .approach[data-mode="scroll"] .head {
+    grid-column: 1 / -1;
+  }
+  .approach[data-mode="scroll"] .reader {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+  }
+  .approach[data-mode="scroll"] .media {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .approach[data-mode="scroll"] .steps {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+  }
+}

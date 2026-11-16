@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { films, type FilmName } from "@/config/media";
-import { onLoaderDone } from "@/lib/loader";
+import { onReveal } from "@/lib/loader";
 import { prefersReducedMotion } from "@/lib/gsap";
 import styles from "./Film.module.css";
 
@@ -68,7 +68,7 @@ export default function Film({ name, className, eager = false, afterLoader = fal
     onScreen.observe(video);
 
     const offLoader = afterLoader
-      ? onLoaderDone(() => {
+      ? onReveal(() => {
           ready = true;
           sync();
         })

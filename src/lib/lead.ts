@@ -16,12 +16,12 @@ export const LEAD_SERVICES = [
   "Ghostwriting",
   "Book Editing",
   "Book Publishing",
+  "Book Marketing",
+  "Author Branding",
   "Book Cover",
   "Book Illustration",
-  "Author Branding",
-  "Book Promotion",
   "Book Trailer",
-  "Other",
+  "Not sure yet",
 ] as const;
 
 export const LEAD_FIELDS: readonly LeadField[] = [
@@ -46,7 +46,8 @@ export function validateLead(values: Record<string, string>) {
     if (!value) continue;
     if (field.type === "email" && !EMAIL_RE.test(value)) errors[field.name] = "Please enter a valid email address.";
     else if (field.type === "tel" && !PHONE_RE.test(value)) errors[field.name] = "Please enter a valid phone number.";
-    else if (field.options && !field.options.includes(value)) errors[field.name] = "Please choose an option.";
+    // Select fields may carry several choices ("A, B") from the contact page's chips.
+    else if (field.options && !value.split(", ").every((v) => field.options!.includes(v))) errors[field.name] = "Please choose from the listed options.";
     else if (value.length > (field.type === "textarea" ? 5000 : 200)) errors[field.name] = `${field.label} is too long.`;
   }
   return errors;
@@ -59,7 +60,7 @@ export type LeadResult =
 
 export async function submitLead(values: Record<string, string>): Promise<LeadResult> {
   try {
-    const res = await fetch("/api/lead", {
+    const res = await fetch("/api/lead/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),

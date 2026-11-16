@@ -7,6 +7,7 @@ import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 import LeadDialog from "@/components/Layout/LeadDialog/LeadDialog";
 import Cursor from "@/components/Layout/Cursor/Cursor";
+import PageTransition from "@/components/Layout/PageTransition/PageTransition";
 import "./globals.css";
 
 /** Display: variable width + optical size — condensed 800 for the headlines. */
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Preloader />
+        <PageTransition />
         <SmoothScroll />
         <Header />
         <main id="main-content" tabIndex={-1}>

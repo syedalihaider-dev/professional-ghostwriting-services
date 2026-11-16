@@ -3,10 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { site } from "@/config/site";
 import { ScrollTrigger } from "@/lib/gsap";
-import { onLoaderDone } from "@/lib/loader";
+import { onLoaderDone, onReveal } from "@/lib/loader";
+import { normPath } from "@/lib/path";
 import { BEZIER } from "@/lib/motion";
 import Button from "@/components/UI/Button/Button";
 import Menu from "./Menu";
@@ -23,7 +25,11 @@ type Theme = "dark" | "light";
 export default function Header() {
   const [theme, setTheme] = useState<Theme>("dark");
   const [hidden, setHidden] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  // The menu belongs to the page it was opened on — navigating closes it.
+  const [menuFor, setMenuFor] = useState<string | null>(null);
+  const menuOpen = menuFor === pathname;
+  const setMenuOpen = (open: boolean) => setMenuFor(open ? pathname : null);
   const [ready, setReady] = useState(false);
   const reduce = useReducedMotion();
   const lastY = useRef(0);
@@ -60,12 +66,13 @@ export default function Header() {
         }),
       );
     };
-    const off = onLoaderDone(build);
+    // Rebuilt for every page, once its content is uncovered.
+    const off = onReveal(build);
     return () => {
       off();
       triggers.forEach((t) => t.kill());
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>
@@ -86,7 +93,7 @@ export default function Header() {
             <ul role="list">
               {site.nav.map((item, i) => (
                 <li key={item.href}>
-                  <a href={item.href} className={styles.navLink}>
+                  <a href={item.href} className={styles.navLink} aria-current={normPath(pathname) === normPath(item.href) ? "page" : undefined}>
                     <span className={styles.navNum} aria-hidden="true">
                       {String(i + 1).padStart(2, "0")}
                     </span>
@@ -104,7 +111,7 @@ export default function Header() {
             <span className={styles.cta}>
               <Button lead>Start your book</Button>
             </span>
-            <button type="button" className={styles.toggle} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen((o) => !o)}>
+            <button type="button" className={styles.toggle} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen(!menuOpen)}>
               <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
               <span className={styles.toggleLabel} aria-hidden="true">
                 {menuOpen ? "Close" : "Menu"}

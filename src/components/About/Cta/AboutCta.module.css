@@ -1,0 +1,95 @@
+.cta {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+}
+
+/* Base is volt (complete without JS); motion starts it as a closed iris on black. */
+.iris {
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+}
+:global(html.js) .cta .pin {
+  background: var(--black);
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-9);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.4rem, 0.4rem + 12.5vw, 15rem);
+  line-height: 0.86;
+}
+.voice {
+  padding-left: 0.5em;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.7em;
+  margin-left: 0.08em;
+  background: var(--black);
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.6rem;
+  width: clamp(9rem, 7rem + 7vw, 14rem);
+  aspect-ratio: 1;
+  padding: 1.5rem;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--volt);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .seal:hover {
+    background: var(--cobalt);
+    color: var(--pure);
+  }
+}
+
+.contact {
+  display: grid;
+  gap: 0.3rem;
+  text-align: right;
+}
+.phone {
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 4rem);
+}

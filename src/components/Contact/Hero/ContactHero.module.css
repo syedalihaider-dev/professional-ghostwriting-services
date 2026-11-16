@@ -1,0 +1,87 @@
+.hero {
+  position: relative;
+  overflow: clip;
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-7);
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + var(--space-4)) var(--space-6);
+  transform-origin: 50% 0%;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.6rem, 0.4rem + 15vw, 19rem);
+  line-height: 0.84;
+}
+
+.q {
+  display: block;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.7em;
+  margin-left: 0.04em;
+  background: var(--volt);
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.answer {
+  display: block;
+  align-self: flex-end;
+  color: var(--volt);
+}
+
+.foot {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.lede {
+  max-width: 40ch;
+  color: var(--silver);
+}
+
+.routes {
+  display: grid;
+  gap: var(--space-4);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-4);
+}
+.routes li {
+  display: grid;
+  gap: 0.2rem;
+}
+.routes a {
+  justify-self: start;
+  font-size: var(--fs-lead);
+}
+.email {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1024px) {
+  .foot {
+    grid-template-columns: 1fr 2fr;
+    align-items: end;
+  }
+  .routes {
+    grid-template-columns: repeat(3, auto);
+    justify-content: end;
+    gap: var(--space-7);
+    border-top: 0;
+    padding-top: 0;
+  }
+}

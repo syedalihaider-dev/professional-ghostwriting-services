@@ -1,0 +1,63 @@
+.reel {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.media {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.video {
+  filter: grayscale(1) contrast(1.15) brightness(0.85);
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(10 10 12 / 0.85), rgb(10 10 12 / 0.25) 60%, rgb(10 10 12 / 0.4));
+}
+
+.copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-5);
+  height: 100%;
+  padding-block: var(--space-8);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.2rem, 0.6rem + 11vw, 14rem);
+  line-height: 0.86;
+}
+.line {
+  display: block;
+}
+.wordMask {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.06em;
+}
+.wordMask > span {
+  display: inline-block;
+}
+
+.caption {
+  max-width: 36ch;
+  font-size: var(--fs-lead);
+  color: rgb(243 244 246 / 0.86);
+}

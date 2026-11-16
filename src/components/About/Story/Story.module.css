@@ -1,0 +1,94 @@
+.story {
+  position: relative;
+  overflow: clip;
+  padding-bottom: var(--space-10);
+}
+
+.pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-6);
+  padding-block: var(--space-9) var(--space-8);
+}
+
+.label {
+  margin: 0;
+}
+
+.sentence {
+  padding-inline: var(--gutter);
+  font-size: clamp(3.2rem, 0.6rem + 12vw, 8rem);
+  line-height: 0.88;
+}
+.sentence [data-anim="sw"] {
+  display: inline-block;
+}
+.hl {
+  color: var(--cobalt);
+}
+
+/* ---------- Supporting story ---------- */
+.body {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.heading {
+  font-size: var(--fs-h2);
+  max-width: 11em;
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 52ch;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+.audience ul {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--fg);
+}
+.audience li {
+  display: grid;
+  gap: 0.2rem;
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+.who {
+  font-size: clamp(2rem, 1.3rem + 2.8vw, 4.25rem);
+}
+.what {
+  color: var(--fg-muted);
+}
+
+@media (min-width: 1024px) {
+  .body {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+  .heading {
+    grid-column: 1 / -1;
+  }
+  .audience li {
+    grid-template-columns: 1fr 1fr;
+    align-items: baseline;
+  }
+}
+
+/* Scroll mode: the sentence becomes one line travelling across a pinned screen. */
+.story[data-mode="scroll"] .pin {
+  height: 100svh;
+  padding-block: 0;
+}
+.story[data-mode="scroll"] .sentence {
+  width: max-content;
+  white-space: nowrap;
+  font-size: clamp(7rem, 17vw, 22rem);
+  padding-inline: 0;
+  will-change: transform;
+}

@@ -1,0 +1,95 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  padding-block: var(--space-10);
+}
+
+.track {
+  display: grid;
+  gap: var(--space-9);
+  padding-inline: var(--gutter);
+}
+
+.lead {
+  display: grid;
+  gap: var(--space-5);
+}
+.leadText {
+  font-size: clamp(3rem, 0.6rem + 10vw, 11rem);
+  max-width: 8em;
+}
+
+.quote {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.mark {
+  position: absolute;
+  top: -0.05em;
+  right: 0;
+  font-size: clamp(8rem, 5rem + 10vw, 18rem);
+  line-height: 0.8;
+  color: var(--volt);
+  pointer-events: none;
+}
+
+.text {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-stretch: 85%;
+  font-size: clamp(1.8rem, 1rem + 2.8vw, 3.9rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  max-width: 20em;
+}
+
+.sign {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+}
+.sign :global(.label) {
+  color: var(--volt);
+}
+.name {
+  font-size: 1.75rem;
+}
+.role {
+  color: rgb(255 255 255 / 0.8);
+  font-size: var(--fs-small);
+}
+
+/* Scroll mode (desktop): one pinned, sideways-moving track. */
+.section[data-mode="scroll"] .pin {
+  height: 100svh;
+  padding-block: 0;
+  display: flex;
+  align-items: center;
+}
+.section[data-mode="scroll"] .track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: clamp(4rem, 8vw, 10rem);
+  will-change: transform;
+}
+.section[data-mode="scroll"] .lead {
+  width: min(70vw, 64rem);
+}
+.section[data-mode="scroll"] .quote {
+  width: min(62vw, 58rem);
+  border-top: 0;
+  border-left: 1px solid var(--line);
+  padding: var(--space-6) 0 var(--space-6) var(--space-7);
+}
+.section[data-mode="scroll"] .quote:last-child {
+  margin-right: var(--gutter);
+}
