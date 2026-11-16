@@ -2,6 +2,10 @@
   position: relative;
   z-index: 2;
   padding-bottom: var(--space-10);
+  /* The rotated ticker and drifting statement lines run past the edges by
+     design; clip them horizontally only (clip, unlike hidden, keeps vertical
+     overflow visible — the ticker still overlaps up into the hero). */
+  overflow-x: clip;
 }
 
 /* ---------- Ticker across the seam ---------- */

@@ -60,15 +60,28 @@ export default function HeroMotion() {
       // Mirrors the CSS band: word line-box height === --kh.
       const bandTop = () => `inset(${stage.offsetHeight - word.offsetHeight}px 0px 0px 0px)`;
 
+      // Every scroll tween states its FROM values explicitly — the designed,
+      // post-entrance resting state. Plain .to() tweens would record whatever
+      // was on screen when they were created (the pre-entrance hidden state)
+      // or, with invalidateOnRefresh, when a refresh happened mid-scroll — and
+      // scrolling back to the top would then restore a broken hero.
+      // immediateRender:false keeps them from touching the hero until scrolled.
+      const rest = { immediateRender: false } as const;
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: { trigger: hero, start: "top top", end: "+=150%", pin: stage, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true },
       });
-      tl.to(fades, { opacity: 0, y: -40, duration: 0.25 }, 0)
-        .to(lines, { yPercent: -40, opacity: 0, stagger: 0.05, duration: 0.3 }, 0)
-        .fromTo(knock, { clipPath: bandTop }, { clipPath: "inset(0px 0px 0px 0px)", duration: 0.35, ease: "power2.inOut" }, 0.05)
-        .fromTo(mask, { scale: 1, transformOrigin: origin }, { scale: 70, duration: 1, ease: "power3.in" }, 0.1)
-        .to(film, { scale: 1, duration: 1 }, 0.1);
+      tl.fromTo(fades, { opacity: 1, y: 0 }, { opacity: 0, y: -40, duration: 0.25, ...rest }, 0)
+        .fromTo(lines, { yPercent: 0, opacity: 1 }, { yPercent: -40, opacity: 0, stagger: 0.05, duration: 0.3, ...rest }, 0)
+        .fromTo(knock, { clipPath: bandTop }, { clipPath: "inset(0px 0px 0px 0px)", duration: 0.35, ease: "power2.inOut", ...rest }, 0.05)
+        // 40× is enough for the B's stem to cover any viewport. Once it does,
+        // the mask is hidden: the footage looks identical, and the browser no
+        // longer has to keep a giant scaled multiply layer alive (at 70× it
+        // exceeded GPU texture limits and left stale tiles in the pinned stage,
+        // corrupting the hero when scrolling back). Reversing restores it.
+        .fromTo(mask, { scale: 1, transformOrigin: origin }, { scale: 40, duration: 1, ease: "power3.in", ...rest }, 0.1)
+        .fromTo(mask, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.01, ...rest }, 1.1)
+        .fromTo(film, { scale: 1.12 }, { scale: 1, duration: 1, ...rest }, 0.1);
 
       const fx = gsap.quickTo(film, "xPercent", { duration: 1.2, ease: "power3" });
       const fy = gsap.quickTo(film, "yPercent", { duration: 1.2, ease: "power3" });

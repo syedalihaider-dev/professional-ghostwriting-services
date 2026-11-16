@@ -1,0 +1,88 @@
+.section {
+  position: relative;
+  padding-block: var(--space-10);
+  overflow: clip;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+.title {
+  font-size: var(--fs-h2);
+}
+.body {
+  max-width: 48ch;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.86);
+}
+
+.figure {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  background: var(--cobalt-deep);
+}
+.figInner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.figInner img {
+  object-fit: cover;
+}
+/* Graded into the cobalt field. */
+.figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cobalt);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+.points {
+  display: grid;
+  gap: var(--space-6);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-6);
+}
+.point {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  color: rgb(255 255 255 / 0.84);
+}
+.num {
+  display: block;
+  font-size: clamp(3.5rem, 2rem + 4vw, 6rem);
+  line-height: 0.85;
+  color: var(--volt);
+}
+.pTitle {
+  font-size: var(--fs-h4);
+  color: var(--pure);
+}
+
+@media (min-width: 768px) {
+  .points {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--space-9);
+  }
+  .points {
+    grid-column: 1 / -1;
+  }
+}

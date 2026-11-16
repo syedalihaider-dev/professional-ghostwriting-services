@@ -52,7 +52,7 @@
 .nav {
   display: none;
 }
-.nav ul {
+.nav > ul {
   display: flex;
   gap: 0.25rem;
 }

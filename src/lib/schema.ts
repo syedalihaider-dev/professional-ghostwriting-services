@@ -124,3 +124,34 @@ export function contactSchema(description: string) {
     ],
   };
 }
+
+/** Service page: Service offered by the organisation, its FAQs and breadcrumbs. */
+export function serviceSchema(svc: { slug: string; name: string; seo: { description: string }; faqs: { q: string; a: string }[] }) {
+  const url = `${site.url}/${svc.slug}/`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: svc.name,
+        description: svc.seo.description,
+        url,
+        provider: { "@id": `${site.url}/#organization` },
+        areaServed: { "@type": "Country", name: "United States" },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: svc.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}/` },
+          { "@type": "ListItem", position: 2, name: svc.name, item: url },
+        ],
+      },
+    ],
+  };
+}

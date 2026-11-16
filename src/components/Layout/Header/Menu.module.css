@@ -64,6 +64,36 @@
   transform: scaleX(1);
 }
 
+.services {
+  display: grid;
+  gap: var(--space-5);
+}
+.group {
+  display: grid;
+  gap: var(--space-2);
+}
+.group :global(.label) {
+  color: var(--volt);
+}
+.group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+}
+.group a {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 1.35rem;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .foot {
   display: flex;
   flex-wrap: wrap;

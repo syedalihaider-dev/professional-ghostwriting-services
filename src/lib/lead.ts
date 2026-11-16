@@ -21,6 +21,10 @@ export const LEAD_SERVICES = [
   "Book Cover",
   "Book Illustration",
   "Book Trailer",
+  "Book Proofreading",
+  "Content Writing",
+  "Article Writing",
+  "Business Plan Writing",
   "Not sure yet",
 ] as const;
 

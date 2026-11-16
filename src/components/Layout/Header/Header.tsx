@@ -12,6 +12,7 @@ import { normPath } from "@/lib/path";
 import { BEZIER } from "@/lib/motion";
 import Button from "@/components/UI/Button/Button";
 import Menu from "./Menu";
+import ServicesMenu from "./ServicesMenu";
 import styles from "./Header.module.css";
 
 type Theme = "dark" | "light";
@@ -91,16 +92,21 @@ export default function Header() {
 
           <nav className={styles.nav} aria-label="Primary">
             <ul role="list">
-              {site.nav.map((item, i) => (
+              {site.nav.map((item, i) =>
+                item.label === "Services" ? (
+                  <ServicesMenu key={item.href} index={i} />
+                ) : (
                 <li key={item.href}>
-                  <a href={item.href} className={styles.navLink} aria-current={normPath(pathname) === normPath(item.href) ? "page" : undefined}>
+                  {/* In-page anchors (/#…) never mark the current page. */}
+                  <a href={item.href} className={styles.navLink} aria-current={!item.href.includes("#") && normPath(pathname) === normPath(item.href) ? "page" : undefined}>
                     <span className={styles.navNum} aria-hidden="true">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className={styles.navText}>{item.label}</span>
                   </a>
                 </li>
-              ))}
+                ),
+              )}
             </ul>
           </nav>
 

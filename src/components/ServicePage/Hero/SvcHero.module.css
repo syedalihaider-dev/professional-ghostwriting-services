@@ -1,0 +1,176 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: clip;
+}
+
+/* ---------- Portrait ---------- */
+.figure {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.media {
+  position: absolute;
+  inset: -6% 0;
+  will-change: transform;
+}
+.media img {
+  object-fit: cover;
+}
+.figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(10 10 12 / 0.75), rgb(10 10 12 / 0.45) 40%, rgb(10 10 12 / 0.92));
+}
+.sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--cobalt);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* ---------- Copy ---------- */
+.frame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: 100svh;
+  padding-block: calc(var(--header-h) + var(--space-3)) var(--space-6);
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  color: var(--fg-muted);
+}
+.crumbs li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.4rem;
+  opacity: 0.5;
+}
+.crumbs [aria-current] {
+  color: var(--fg);
+}
+
+.title {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: auto;
+  font: inherit;
+}
+.kicker {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-stretch: 100%;
+  letter-spacing: 0.06em;
+}
+.lines {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.4rem, 0.4rem + 13vw, 13.5rem);
+  line-height: 0.86;
+}
+.line {
+  display: block;
+  will-change: transform;
+}
+.accent {
+  color: var(--volt);
+}
+.caret {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.7em;
+  margin-left: 0.06em;
+  background: var(--volt);
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.foot {
+  display: grid;
+  gap: var(--space-5);
+}
+.lede {
+  max-width: 44ch;
+  color: rgb(243 244 246 / 0.86);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+}
+.call {
+  display: grid;
+  gap: 0.15rem;
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.cue {
+  display: none;
+}
+.cueLine {
+  position: relative;
+  width: 1px;
+  height: 2.75rem;
+  overflow: hidden;
+  background: rgb(243 244 246 / 0.2);
+}
+.cueLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  animation: cue 2.4s var(--ease-in-out) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  55%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Desktop: the portrait becomes a tall panel on the right; copy overlaps it. */
+@media (min-width: 1024px) {
+  .figure {
+    inset: calc(var(--header-h) + var(--space-3)) var(--gutter) var(--space-6) auto;
+    width: 42vw;
+  }
+  .figure::after {
+    background: linear-gradient(to right, rgb(10 10 12 / 0.55), transparent 45%), linear-gradient(to top, rgb(10 10 12 / 0.5), transparent 40%);
+  }
+  .lines {
+    font-size: min(11vw, 17vh);
+  }
+  .foot {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    max-width: 52vw;
+  }
+  .cue {
+    position: absolute;
+    right: calc(var(--gutter) + 1.25rem);
+    bottom: calc(var(--space-6) + 1.25rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}

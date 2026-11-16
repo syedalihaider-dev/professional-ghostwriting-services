@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "@/config/site";
-import { services } from "@/content/home";
+import { services, servicePath } from "@/data/services";
 import Button from "@/components/UI/Button/Button";
 import FooterMotion from "./FooterMotion";
 import styles from "./Footer.module.css";
@@ -49,10 +49,10 @@ export default function Footer() {
               Services
             </h2>
             <ul role="list">
-              {services.items.map((s) => (
-                <li key={s.id}>
-                  <a href={"/#services"} className="link-u">
-                    {s.title}
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <a href={servicePath(s.slug)} className="link-u">
+                    {s.short}
                   </a>
                 </li>
               ))}

@@ -19,12 +19,91 @@
   max-width: 13em;
 }
 
-/* ---------- The stack ---------- */
+/* ---------- The stack ----------
+   Default (phones, reduced motion, no JS): panels in natural flow.
+   Scroll mode (desktop + motion): one pinned stage, panels stacked. */
+.stage {
+  position: relative;
+}
+
 .panel {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+  position: relative;
+  height: 92svh;
   min-height: 34rem;
+}
+.panel + .panel {
+  margin-top: 2px;
+}
+
+.services[data-mode="scroll"] .stage {
+  height: 100svh;
+  overflow: hidden;
+}
+.services[data-mode="scroll"] .stack {
+  position: absolute;
+  inset: 0;
+}
+.services[data-mode="scroll"] .panel {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+/* ---------- HUD: index + progress (scroll mode only) ---------- */
+.hud {
+  display: none;
+}
+.services[data-mode="scroll"] .hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-5);
+  z-index: 5;
+  display: grid;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+.index {
+  display: flex;
+  gap: var(--space-5);
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.45);
+}
+.index li {
+  transition: color var(--dur-base) var(--ease-out);
+}
+.index li span {
+  color: inherit;
+}
+.index li[data-active] {
+  color: var(--pure);
+}
+.index li[data-active] span {
+  color: var(--volt);
+}
+.bars {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.35rem;
+}
+.bar {
+  position: relative;
+  height: 2px;
+  background: rgb(255 255 255 / 0.22);
+  overflow: hidden;
+}
+.barFill {
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  transform: scaleX(0);
+  transform-origin: left;
 }
 
 .inner {
@@ -85,6 +164,10 @@
   z-index: 2;
 }
 
+.services[data-mode="scroll"] .content {
+  padding-bottom: calc(var(--space-6) + 4.5rem);
+}
+
 .content {
   position: relative;
   z-index: 1;
@@ -137,6 +220,16 @@
   font-size: clamp(3rem, 0.8rem + 9vw, 11rem);
   line-height: 0.84;
   max-width: 9em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+}
+.explore {
+  color: var(--pure);
 }
 
 .detail {

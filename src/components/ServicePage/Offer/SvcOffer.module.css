@@ -1,0 +1,139 @@
+.section {
+  position: relative;
+  padding-block: var(--space-10);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-5);
+}
+.title {
+  font-size: var(--fs-h2);
+  max-width: 12em;
+}
+
+.list {
+  border-top: 1px solid var(--fg);
+}
+
+.row {
+  border-bottom: 1px solid var(--line);
+}
+
+.rowHead {
+  font: inherit;
+}
+
+.rowBtn {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  align-items: baseline;
+  gap: var(--space-4);
+  width: 100%;
+  padding-block: var(--space-5) var(--space-3);
+  text-align: left;
+}
+.num {
+  color: var(--fg-muted);
+  transition: color var(--dur-base) ease;
+}
+.name {
+  font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.75rem);
+  line-height: 0.95;
+  transition: color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.marker {
+  display: none;
+}
+
+.inlineBody {
+  padding: 0 0 var(--space-5) calc(2.5rem + var(--space-4));
+  max-width: 50ch;
+  color: var(--fg-muted);
+}
+
+.panelCol {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+  .head {
+    grid-column: 1 / -1;
+  }
+
+  .rowBtn {
+    grid-template-columns: 3rem 1fr 2.5rem;
+    padding-block: var(--space-5);
+    cursor: default;
+  }
+  .marker {
+    display: block;
+    align-self: center;
+    width: 0.9rem;
+    height: 1.6rem;
+    background: var(--volt);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .row[data-on] .marker {
+    transform: scaleX(1);
+  }
+  .row[data-on] .num {
+    color: var(--volt);
+  }
+  .row[data-on] .name {
+    color: var(--volt);
+    transform: translateX(0.6rem);
+  }
+
+  /* Descriptions live in the sticky panel on desktop; kept for assistive tech. */
+  .inlineBody {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .panelCol {
+    display: block;
+    align-self: stretch;
+  }
+  .panel {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+    min-height: 26rem;
+    padding: var(--space-6);
+    background: var(--graphite);
+    border-top: 3px solid var(--volt);
+  }
+  .panelInner {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .panelNum {
+    font-size: clamp(5rem, 3rem + 5vw, 9rem);
+    line-height: 0.8;
+    color: var(--cobalt);
+  }
+  .panelTitle {
+    font-size: var(--fs-h4);
+  }
+  .panelBody {
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: rgb(243 244 246 / 0.86);
+  }
+}

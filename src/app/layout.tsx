@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import { site } from "@/config/site";
+import { INDEXABLE } from "@/config/indexing";
 import Preloader from "@/components/Layout/Preloader/Preloader";
 import SmoothScroll from "@/components/Layout/SmoothScroll/SmoothScroll";
 import Header from "@/components/Layout/Header/Header";
@@ -29,7 +30,10 @@ export const metadata: Metadata = {
   title: { default: seo.title, template: `%s | ${site.name}` },
   description: seo.description,
   applicationName: site.name,
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  // Central robots policy — every route inherits it (no page overrides robots).
+  robots: INDEXABLE
+    ? { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } }
+    : { index: false, follow: false, googleBot: { index: false, follow: false } },
   openGraph: {
     type: "website",
     locale: "en_US",

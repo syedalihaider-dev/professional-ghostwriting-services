@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { site } from "@/config/site";
+import { services, serviceCategories, servicePath } from "@/data/services";
 import { useDialog } from "@/hooks/useDialog";
 import { leadStore } from "@/lib/leadStore";
 import { BEZIER } from "@/lib/motion";
@@ -54,6 +55,33 @@ export default function Menu({ open, onClose }: { open: boolean; onClose: () => 
                 ))}
               </ol>
             </nav>
+
+            {/* Every service page, grouped — the mobile counterpart of the desktop services panel. */}
+            <motion.nav
+              aria-label="Services"
+              className={styles.services}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.6, ease: BEZIER.out, delay: reduce ? 0 : 0.5 }}
+            >
+              {serviceCategories.map((cat) => (
+                <div key={cat} className={styles.group}>
+                  <p className="label">{cat}</p>
+                  <ul role="list">
+                    {services
+                      .filter((s) => s.category === cat)
+                      .map((s) => (
+                        <li key={s.slug}>
+                          <a href={servicePath(s.slug)} onClick={onClose}>
+                            {s.short}
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ))}
+            </motion.nav>
 
             <motion.div
               className={styles.foot}

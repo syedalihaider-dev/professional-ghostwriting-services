@@ -49,15 +49,19 @@ export default function ApproachMotion() {
       });
 
       tl.addLabel("s0", 0).to(fill, { scaleY: 1, ease: "none", duration: last + 0.5 }, 0);
+      // fromTo throughout: with invalidateOnRefresh (needed to re-measure the
+      // row height on resize), plain .to() would re-record start values from
+      // wherever the scroll happened to be during a refresh.
+      const rest = { immediateRender: false } as const;
       for (let i = 1; i <= last; i++) {
         const at = i - 0.5;
-        tl.to(column, { y: () => -row() * i }, at)
-          .to(words[i - 1], { ...dim, duration: 0.4 }, at)
-          .to(words[i], { ...lit, duration: 0.4 }, at + 0.1)
-          .to(shots[i], { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55 }, at)
-          .to(inners[i], { scale: 1, duration: 0.7, ease: "power2.out" }, at)
-          .to(steps[i - 1], { autoAlpha: 0, y: -16, duration: 0.25 }, at)
-          .to(steps[i], { autoAlpha: 1, y: 0, duration: 0.3 }, at + 0.25)
+        tl.fromTo(column, { y: () => -row() * (i - 1) }, { y: () => -row() * i, ...rest }, at)
+          .fromTo(words[i - 1], lit, { ...dim, duration: 0.4, ...rest }, at)
+          .fromTo(words[i], dim, { ...lit, duration: 0.4, ...rest }, at + 0.1)
+          .fromTo(shots[i], { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ...rest }, at)
+          .fromTo(inners[i], { scale: 1.3 }, { scale: 1, duration: 0.7, ease: "power2.out", ...rest }, at)
+          .fromTo(steps[i - 1], { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -16, duration: 0.25, ...rest }, at)
+          .fromTo(steps[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3, ...rest }, at + 0.25)
           .addLabel(`s${i}`, i);
       }
       tl.to({}, { duration: 0.5 }, last);

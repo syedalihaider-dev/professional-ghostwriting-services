@@ -1,0 +1,130 @@
+.section {
+  position: relative;
+  overflow: clip;
+}
+
+.pin {
+  position: relative;
+  padding-block: var(--space-10);
+}
+
+.progress {
+  display: none;
+}
+
+.track {
+  display: grid;
+  gap: var(--space-8);
+  padding-inline: var(--gutter);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+.title {
+  font-size: var(--fs-h2);
+  max-width: 10em;
+}
+.hint {
+  display: none;
+}
+
+/* ---------- Vertical (default) ---------- */
+.stepsWrap {
+  position: relative;
+  padding-left: var(--space-6);
+}
+.steps {
+  display: grid;
+  gap: var(--space-7);
+  list-style: none;
+}
+.rail {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: rgb(243 244 246 / 0.14);
+}
+.railFill {
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  transform-origin: top;
+}
+
+.step {
+  display: grid;
+  gap: var(--space-3);
+}
+.num {
+  font-size: clamp(3.5rem, 2rem + 5vw, 8rem);
+  line-height: 0.8;
+  color: var(--cobalt);
+}
+.stepTitle {
+  font-size: var(--fs-h3);
+}
+.body {
+  max-width: 40ch;
+  color: rgb(243 244 246 / 0.8);
+}
+
+/* ---------- Horizontal (desktop + motion) ---------- */
+.section[data-mode="scroll"] .pin {
+  height: 100svh;
+  padding-block: 0;
+  display: flex;
+  align-items: center;
+}
+.section[data-mode="scroll"] .progress {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: calc(var(--header-h) + var(--space-5));
+  display: block;
+  height: 2px;
+  background: rgb(243 244 246 / 0.14);
+}
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--volt);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.section[data-mode="scroll"] .track {
+  display: flex;
+  align-items: center;
+  gap: clamp(3rem, 6vw, 8rem);
+  width: max-content;
+  will-change: transform;
+}
+.section[data-mode="scroll"] .head {
+  width: min(36vw, 34rem);
+}
+.section[data-mode="scroll"] .hint {
+  display: inline-flex;
+}
+.section[data-mode="scroll"] .stepsWrap {
+  padding-left: 0;
+}
+.section[data-mode="scroll"] .steps {
+  display: flex;
+  gap: clamp(2rem, 4vw, 5rem);
+}
+.section[data-mode="scroll"] .rail {
+  display: none;
+}
+.section[data-mode="scroll"] .step {
+  width: clamp(18rem, 26vw, 28rem);
+  padding: var(--space-6) var(--space-6) var(--space-6) 0;
+  border-left: 1px solid var(--line);
+  padding-left: var(--space-6);
+}
+.section[data-mode="scroll"] .step:last-child {
+  margin-right: var(--gutter);
+}

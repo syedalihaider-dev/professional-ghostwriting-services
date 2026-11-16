@@ -39,6 +39,8 @@ export type Service = {
   image: string;
   film?: "writer";
   tone: "black" | "cobalt" | "graphite";
+  /** Dedicated service page, where one exists. */
+  href?: string;
 };
 
 export const services = {
@@ -53,6 +55,7 @@ export const services = {
       image: "/images/services/ghostwriting.webp",
       film: "writer",
       tone: "black",
+      href: "/non-fiction-ghostwriting-services/",
     },
     {
       id: "fiction",
@@ -61,6 +64,7 @@ export const services = {
       tags: ["Novels", "Series", "Genre fiction"],
       image: "/images/services/fiction.webp",
       tone: "cobalt",
+      href: "/fiction-ghostwriting-services/",
     },
     {
       id: "memoir-non-fiction",
@@ -69,6 +73,7 @@ export const services = {
       tags: ["Memoir", "Business", "Thought leadership"],
       image: "/images/services/memoir.webp",
       tone: "graphite",
+      href: "/memoir-ghostwriting-services/",
     },
     {
       id: "editing",
@@ -77,6 +82,7 @@ export const services = {
       tags: ["Developmental", "Line editing", "Proofreading"],
       image: "/images/services/editing.webp",
       tone: "black",
+      href: "/book-editing-services/",
     },
     {
       id: "cover-design",
@@ -93,6 +99,7 @@ export const services = {
       tags: ["Publishing", "Author branding", "Book trailers"],
       image: "/images/services/publishing.webp",
       tone: "graphite",
+      href: "/book-marketing-services/",
     },
   ] satisfies Service[],
 };

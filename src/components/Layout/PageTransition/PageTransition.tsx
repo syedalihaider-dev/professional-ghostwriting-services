@@ -6,10 +6,16 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { beginTransition, endTransition } from "@/lib/loader";
 import { getLenis, scrollToTarget } from "@/lib/lenis";
 import { normPath } from "@/lib/path";
+import { services, servicePath } from "@/data/services";
 import styles from "./PageTransition.module.css";
 
 /** Display names typed onto the cover for each route. */
-const NAMES: Record<string, string> = { "/": "HOME", "/about-us": "ABOUT", "/contact": "CONTACT" };
+const NAMES: Record<string, string> = {
+  "/": "HOME",
+  "/about-us": "ABOUT",
+  "/contact": "CONTACT",
+  ...Object.fromEntries(services.map((s) => [normPath(servicePath(s.slug)), s.transition])),
+};
 const norm = normPath;
 
 /**
@@ -55,6 +61,8 @@ export default function PageTransition() {
       }
 
       w.textContent = "";
+      // Size the word to its length so long names (PROOFREADING) still fit the screen.
+      w.parentElement!.style.fontSize = `min(${Math.min(18, 150 / Math.max(name.length, 1)).toFixed(2)}vw, 22rem)`;
       const tl = gsap.timeline();
       tl.set(el, { display: "grid", opacity: 1 })
         .fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "expo.inOut" });

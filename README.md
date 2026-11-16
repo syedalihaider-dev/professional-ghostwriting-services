@@ -44,6 +44,12 @@ attributes, runs inside `gsap.matchMedia()`, and is reverted on unmount. Pinned 
 layout via `data-mode="scroll"`, so reduced-motion and no-JS visitors get a complete static layout.
 
 **Gotchas**
+- Scroll-scrubbed tweens must use `fromTo` with explicit resting values (+ `immediateRender: false`). Plain `.to()`
+  records start values at creation or on refresh — the cause of the old "hero breaks after scrolling back" bug.
+- Never keep a huge scaled layer alive: the hero knockout mask is capped at 40× and hidden once the zoom completes
+  (at 70× it exceeded GPU texture limits and left stale tiles in the pinned stage).
+- Homepage Services settles one service per gesture through **Lenis** (`getLenis().scrollTo`), not ScrollTrigger
+  `snap` — the two scroll engines fight each other.
 - Never put a CSS `transition`/`scale` on an element GSAP tweens: GSAP writes `scale: none` and
   reads mid-transition matrices. Animate a wrapper or a child instead.
 - Global utility classes (`.label`, `.link-u`) can load after module CSS. When a module needs to
@@ -57,6 +63,29 @@ Internal link clicks are intercepted (capture phase) by `PageTransition`: a blac
 destination name with the caret, swaps the route and lifts away. Entrance animations and autoplaying
 films wait on `onReveal()`, which fires after the first-visit preloader **and** after every transition.
 Add new routes to `NAMES` in `PageTransition.tsx`, `site.nav` and `app/sitemap.ts`.
+
+## Service pages
+
+Thirteen service pages live at the domain root (`/memoir-ghostwriting-services/` …), never under `/services/`.
+
+- **Data:** `src/data/services.ts` — one entry per service (copy, imagery, process, FAQs, CTA, related links, SEO).
+- **Template:** `src/components/ServicePage/` — one master page; only the data changes.
+- **Route:** `src/app/[serviceSlug]/page.tsx` (all slugs prerendered via `generateStaticParams`).
+- **Slugs:** `src/data/serviceSlugs.ts` — also read by `src/proxy.ts`, which turns unknown root URLs into real 404s
+  (with Cache Components a dynamic segment would otherwise answer unknown slugs with a soft 200).
+  The build fails if this list and the data disagree.
+- **Imagery:** `public/images/svc/<service>-{hero,intro,detail,visual}.webp` (mono / cobalt duotone grades).
+
+To add a service: add its slug to `serviceSlugs.ts`, its entry to `services.ts`, and its four images.
+Navigation (header panel, mobile menu, footer, page-transition names) all update from the data.
+
+## Search indexing (pre-launch)
+
+`src/config/indexing.ts` → `INDEXABLE = false` sets **noindex, nofollow** site-wide: robots metadata in the root
+layout, plus an `X-Robots-Tag` header on every response (`next.config.ts`). No sitemap is served and robots.txt
+doesn't reference one; crawling stays *allowed* so crawlers can see the noindex.
+**At launch:** set `INDEXABLE = true` and create `src/app/sitemap.ts` with
+`export { sitemapEntries as default } from "@/lib/sitemapEntries";`.
 
 ## Lead form
 

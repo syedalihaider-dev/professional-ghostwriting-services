@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { aboutCta } from "@/content/about";
 import { site } from "@/config/site";
 import Magnetic from "@/components/UI/Magnetic/Magnetic";
@@ -27,12 +28,12 @@ export default function AboutCta() {
           </h2>
           <div className={styles.row} data-anim="row">
             <Magnetic strength={0.4}>
-              <a href="/contact/" className={styles.seal} data-cursor="Contact">
+              <Link href="/contact/" className={styles.seal} data-cursor="Contact">
                 <span>{aboutCta.button}</span>
                 <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
                   <path d="M3 10h13M11 4.5 16.5 10 11 15.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
                 </svg>
-              </a>
+              </Link>
             </Magnetic>
             <div className={styles.contact}>
               <span className="label muted">Or call</span>

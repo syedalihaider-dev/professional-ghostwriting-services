@@ -1,0 +1,57 @@
+.section {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 110svh;
+  overflow: clip;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.img {
+  object-fit: cover;
+}
+.film {
+  filter: grayscale(1) contrast(1.2) brightness(0.9);
+}
+/* Films get the same cobalt duotone as the stills. */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: var(--cobalt);
+  mix-blend-mode: multiply;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(10 10 12 / 0.45), transparent 35%, transparent 65%, rgb(10 10 12 / 0.55));
+}
+
+.lines {
+  position: relative;
+  display: grid;
+  gap: 0.1em;
+  font-size: clamp(3.6rem, 0.6rem + 13vw, 16rem);
+  line-height: 0.86;
+  color: var(--pure);
+}
+@media (min-width: 768px) {
+  .lines {
+    white-space: nowrap;
+  }
+}
+.lines span {
+  display: block;
+  will-change: transform;
+}
+.left {
+  padding-left: var(--gutter);
+}
+.right {
+  justify-self: end;
+  padding-right: var(--gutter);
+  color: var(--volt);
+}

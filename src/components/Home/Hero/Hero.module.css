@@ -43,7 +43,8 @@
   color: var(--pure);
   mix-blend-mode: multiply;
   overflow: hidden;
-  will-change: transform;
+  /* No will-change: the zoom must re-rasterize at sane sizes instead of
+     promoting a huge, fixed-scale layer. */
 }
 
 .word {
